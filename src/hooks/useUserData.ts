@@ -1,13 +1,21 @@
 import { useCallback, useEffect, useState } from "react";
 import type { CourseRecord, SemesterKey, UserData } from "@/types";
 import { semesterKeyToString } from "@/types";
-import { createInitialUserData, loadUserData, saveUserData } from "@/utils/storage";
+import { createInitialUserData, loadUserData, saveUserData, clearUserData } from "@/utils/storage";
+import { getDepartment } from "@/data/departments";
 
 export const useUserData = () => {
   const [data, setData] = useState<UserData | null>(null);
 
   useEffect(() => {
-    setData(loadUserData());
+    const saved = loadUserData();
+    if (saved && !getDepartment(saved.departmentId)) {
+      // 旧データのIDが現在の学科定義に存在しない場合はクリア
+      clearUserData();
+      setData(null);
+    } else {
+      setData(saved);
+    }
   }, []);
 
   const save = useCallback((newData: UserData) => {
