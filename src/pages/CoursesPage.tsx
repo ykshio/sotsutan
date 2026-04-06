@@ -107,7 +107,7 @@ const isSubjectCurrentYear = (s: SubjectDefinition, sk: SemesterKey): boolean =>
     s.year === `${yearStr}年` ||
     s.year.split(",").some((y) => y.trim().replace("年", "") === yearStr);
   const semMatch =
-    s.semester === "前期／後期" || s.semester === sk.semester;
+    s.semester === "前期／後期" || s.semester === "通年" || s.semester === sk.semester;
   return yearMatch && semMatch;
 };
 
@@ -118,7 +118,7 @@ const isSubjectFromPastYear = (s: SubjectDefinition, sk: SemesterKey): boolean =
   if (minYear >= sk.year) return false;
   if (isSubjectCurrentYear(s, sk)) return false;
   const semMatch =
-    s.semester === "前期／後期" || s.semester === sk.semester;
+    s.semester === "前期／後期" || s.semester === "通年" || s.semester === sk.semester;
   return semMatch;
 };
 
