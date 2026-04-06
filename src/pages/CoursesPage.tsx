@@ -1,5 +1,5 @@
-import { useState } from "react";
-import type { CourseRecord, DepartmentDefinition, Grade, SemesterKey, UserData } from "@/types";
+import { useMemo, useState } from "react";
+import type { CourseRecord, DepartmentDefinition, Grade, SemesterKey, SubjectDefinition, UserData } from "@/types";
 import { semesterKeyToString } from "@/types";
 import { getDepartment } from "@/data/departments";
 import { sumCreditsForSemester } from "@/utils/gpa";
@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Plus, Trash2, AlertTriangle } from "lucide-react";
+import { Plus, Trash2, AlertTriangle, ChevronDown, ChevronUp, Check } from "lucide-react";
 
 const SEMESTERS: SemesterKey[] = [
   { year: 1, semester: "前期" }, { year: 1, semester: "後期" },
@@ -30,6 +30,16 @@ const gradeStyle = (grade: Grade) => {
     case "D": return "bg-red-100 text-red-700 border-red-200";
     case "F": return "bg-red-200 text-red-800 border-red-300";
     default: return "bg-muted text-muted-foreground";
+  }
+};
+
+const classificationStyle = (c: string) => {
+  switch (c) {
+    case "必修": return "bg-red-50 text-red-700 border-red-200";
+    case "択一必修": return "bg-orange-50 text-orange-700 border-orange-200";
+    case "選択": return "bg-blue-50 text-blue-700 border-blue-200";
+    case "自由": return "bg-gray-50 text-gray-600 border-gray-200";
+    default: return "";
   }
 };
 
@@ -81,6 +91,31 @@ export const CoursesPage = ({ data, onSetCourses }: Props) => {
   );
 };
 
+/** 配当科目がこの学期に該当するか */
+const isSubjectAvailable = (s: SubjectDefinition, sk: SemesterKey): boolean => {
+  const yearStr = String(sk.year);
+  const yearMatch =
+    s.year === "全" ||
+    s.year === yearStr ||
+    s.year === `${yearStr}年` ||
+    s.year.split(",").some((y) => y.trim().replace("年", "") === yearStr);
+  const semMatch =
+    s.semester === "前期／後期" || s.semester === sk.semester;
+  return yearMatch && semMatch;
+};
+
+/** 配当科目をカテゴリごとにグループ化 */
+const groupByCategory = (subjects: SubjectDefinition[]) => {
+  const groups = new Map<string, SubjectDefinition[]>();
+  for (const s of subjects) {
+    const key = s.subcategory1 || s.category;
+    const list = groups.get(key) ?? [];
+    list.push(s);
+    groups.set(key, list);
+  }
+  return groups;
+};
+
 const SemesterTab = ({
   semesterKey,
   data,
@@ -98,51 +133,50 @@ const SemesterTab = ({
   const allCourses = data.semesters.flatMap((s) => s.courses);
   const totalCredits = sumCreditsForSemester(allCourses, semesterKey);
 
-  const availableSubjects = dept.subjects.filter((s) => {
-    // 配当年チェック: "全" or 配当年にsemesterKey.yearが含まれるか
-    const yearStr = String(semesterKey.year);
-    const yearMatch =
-      s.year === "全" ||
-      s.year === yearStr ||
-      s.year === `${yearStr}年` ||
-      s.year.split(",").some((y) => y.trim().replace("年", "") === yearStr);
-    // 配当期チェック: "前期／後期" なら両方OK
-    const semMatch =
-      s.semester === "前期／後期" || s.semester === semesterKey.semester;
-    return yearMatch && semMatch;
-  });
+  const availableSubjects = useMemo(
+    () => dept.subjects.filter((s) => isSubjectAvailable(s, semesterKey)),
+    [dept.subjects, semesterKey]
+  );
+
+  const registeredIds = new Set(courses.map((c) => c.subjectId));
+  const grouped = useMemo(() => groupByCategory(availableSubjects), [availableSubjects]);
 
   const creditLimit = dept.creditLimits[0]?.maxCredits ?? 24;
   const overLimit = totalCredits > creditLimit;
+
+  const [showPicker, setShowPicker] = useState(false);
+  const [showCustom, setShowCustom] = useState(false);
+  const [customName, setCustomName] = useState("");
+  const [customCredits, setCustomCredits] = useState("2");
+
+  const toggleSubject = (subject: SubjectDefinition) => {
+    if (registeredIds.has(subject.id)) {
+      // 削除
+      onSetCourses(semesterKey, courses.filter((c) => c.subjectId !== subject.id));
+    } else {
+      // 追加
+      const newCourse: CourseRecord = {
+        subjectId: subject.id,
+        subjectName: subject.name,
+        credits: subject.credits,
+        category: subject.category,
+        classification: subject.classification,
+        grade: "",
+        year: semesterKey.year,
+        semester: semesterKey.semester,
+      };
+      onSetCourses(semesterKey, [...courses, newCourse]);
+    }
+  };
 
   const updateGrade = (index: number, grade: Grade) => {
     const newCourses = courses.map((c, i) => (i === index ? { ...c, grade } : c));
     onSetCourses(semesterKey, newCourses);
   };
 
-  const addFromSubject = (subjectId: string) => {
-    const subject = dept.subjects.find((s) => s.id === subjectId);
-    if (!subject) return;
-    const newCourse: CourseRecord = {
-      subjectId: subject.id,
-      subjectName: subject.name,
-      credits: subject.credits,
-      category: subject.category,
-      classification: subject.classification,
-      grade: "",
-      year: semesterKey.year,
-      semester: semesterKey.semester,
-    };
-    onSetCourses(semesterKey, [...courses, newCourse]);
-  };
-
   const removeCourse = (index: number) => {
     onSetCourses(semesterKey, courses.filter((_, i) => i !== index));
   };
-
-  const [showCustom, setShowCustom] = useState(false);
-  const [customName, setCustomName] = useState("");
-  const [customCredits, setCustomCredits] = useState("2");
 
   const addCustomCourse = () => {
     if (!customName.trim()) return;
@@ -162,147 +196,187 @@ const SemesterTab = ({
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg">
-            {semesterKey.year}年 {semesterKey.semester}
-          </CardTitle>
-          <div className="flex items-center gap-2">
-            {overLimit && (
-              <span className="flex items-center gap-1 text-sm text-red-600">
-                <AlertTriangle size={14} />
-                上限超過
-              </span>
-            )}
-            <Badge
-              variant={overLimit ? "destructive" : "secondary"}
-              className="text-sm font-mono"
-            >
-              {totalCredits} / {creditLimit}
-            </Badge>
+    <div className="space-y-4">
+      {/* 登録済み科目テーブル */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-lg">
+              {semesterKey.year}年 {semesterKey.semester}
+            </CardTitle>
+            <div className="flex items-center gap-2">
+              {overLimit && (
+                <span className="flex items-center gap-1 text-sm text-red-600">
+                  <AlertTriangle size={14} />
+                  上限超過
+                </span>
+              )}
+              <Badge
+                variant={overLimit ? "destructive" : "secondary"}
+                className="text-sm font-mono"
+              >
+                {totalCredits} / {creditLimit} 単位
+              </Badge>
+            </div>
           </div>
-        </div>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {courses.length > 0 ? (
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>科目名</TableHead>
-                  <TableHead className="w-16 text-center">単位</TableHead>
-                  <TableHead className="w-28">区分</TableHead>
-                  <TableHead className="w-16">分類</TableHead>
-                  <TableHead className="w-24">評定</TableHead>
-                  <TableHead className="w-10"></TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {courses.map((course, idx) => (
-                  <TableRow key={`${course.subjectId}-${idx}`} className="group">
-                    <TableCell className="font-medium">{course.subjectName}</TableCell>
-                    <TableCell className="text-center font-mono">{course.credits}</TableCell>
-                    <TableCell>
-                      <Badge variant="outline" className="text-xs font-normal">{course.category}</Badge>
-                    </TableCell>
-                    <TableCell>
-                      <span className="text-xs text-muted-foreground">{course.classification}</span>
-                    </TableCell>
-                    <TableCell>
-                      <Select
-                        value={course.grade || "none"}
-                        onValueChange={(v: string | null) => updateGrade(idx, (!v || v === "none" ? "" : v) as Grade)}
-                      >
-                        <SelectTrigger className={`h-8 text-xs font-semibold ${course.grade ? gradeStyle(course.grade) : ""}`}>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="none">未入力</SelectItem>
-                          {GRADES.filter((g) => g !== "").map((g) => (
-                            <SelectItem key={g} value={g}>
-                              <span className={`px-1.5 py-0.5 rounded text-xs font-semibold ${gradeStyle(g)}`}>{g}</span>
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-red-600 transition-opacity"
-                        onClick={() => removeCourse(idx)}
-                      >
-                        <Trash2 size={14} />
-                      </Button>
-                    </TableCell>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {courses.length > 0 ? (
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>科目名</TableHead>
+                    <TableHead className="w-16 text-center">単位</TableHead>
+                    <TableHead className="w-20">分類</TableHead>
+                    <TableHead className="w-24">評定</TableHead>
+                    <TableHead className="w-10"></TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        ) : (
-          <div className="text-center py-8 text-muted-foreground">
-            <p>まだ科目が登録されていません</p>
-            <p className="text-sm mt-1">下のセレクトから配当科目を追加してください</p>
-          </div>
-        )}
-
-        <div className="flex flex-wrap gap-2 pt-2 border-t">
-          {availableSubjects.length > 0 && (
-            <Select onValueChange={(v: string | null) => { if (v) addFromSubject(v); }}>
-              <SelectTrigger className="w-72">
-                <SelectValue placeholder="配当科目から追加..." />
-              </SelectTrigger>
-              <SelectContent>
-                {availableSubjects
-                  .filter((s) => !courses.some((c) => c.subjectId === s.id))
-                  .map((s) => (
-                    <SelectItem key={s.id} value={s.id}>
-                      {s.name}（{s.credits}��位・{s.classification}）
-                    </SelectItem>
+                </TableHeader>
+                <TableBody>
+                  {courses.map((course, idx) => (
+                    <TableRow key={`${course.subjectId}-${idx}`} className="group">
+                      <TableCell className="font-medium">{course.subjectName}</TableCell>
+                      <TableCell className="text-center font-mono">{course.credits}</TableCell>
+                      <TableCell>
+                        <Badge variant="outline" className={`text-xs font-normal ${classificationStyle(course.classification)}`}>
+                          {course.classification}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Select
+                          value={course.grade || "none"}
+                          onValueChange={(v: string | null) => updateGrade(idx, (!v || v === "none" ? "" : v) as Grade)}
+                        >
+                          <SelectTrigger className={`h-8 text-xs font-semibold ${course.grade ? gradeStyle(course.grade) : ""}`}>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="none">未入力</SelectItem>
+                            {GRADES.filter((g) => g !== "").map((g) => (
+                              <SelectItem key={g} value={g}>
+                                <span className={`px-1.5 py-0.5 rounded text-xs font-semibold ${gradeStyle(g)}`}>{g}</span>
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-red-600 transition-opacity"
+                          onClick={() => removeCourse(idx)}
+                        >
+                          <Trash2 size={14} />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
                   ))}
-              </SelectContent>
-            </Select>
+                </TableBody>
+              </Table>
+            </div>
+          ) : (
+            <div className="text-center py-6 text-muted-foreground">
+              <p>まだ科目が登録されていません</p>
+              <p className="text-sm mt-1">「科目を追加」から配当科目を選択してください</p>
+            </div>
           )}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setShowCustom(!showCustom)}
-            className="text-muted-foreground"
-          >
-            <Plus size={14} className="mr-1" />
-            カスタム��目
-          </Button>
-        </div>
+        </CardContent>
+      </Card>
 
-        {showCustom && (
-          <div className="flex gap-2 items-end bg-muted/30 p-3 rounded-lg">
-            <div className="flex-1">
-              <label className="text-xs font-medium text-muted-foreground">科目名</label>
-              <Input
-                value={customName}
-                onChange={(e) => setCustomName(e.target.value)}
-                placeholder="科目名を入力"
-                className="mt-1"
-              />
-            </div>
-            <div className="w-20">
-              <label className="text-xs font-medium text-muted-foreground">単位</label>
-              <Input
-                type="number"
-                value={customCredits}
-                onChange={(e) => setCustomCredits(e.target.value)}
-                min="1"
-                max="10"
-                className="mt-1"
-              />
-            </div>
-            <Button onClick={addCustomCourse}>追加</Button>
+      {/* 科目追加パネル */}
+      <Card>
+        <CardHeader
+          className="cursor-pointer select-none"
+          onClick={() => setShowPicker(!showPicker)}
+        >
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-base flex items-center gap-2">
+              <Plus size={16} />
+              科目を追加
+              <Badge variant="secondary" className="font-normal">
+                {availableSubjects.length - registeredIds.size} 科目
+              </Badge>
+            </CardTitle>
+            {showPicker ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
           </div>
+        </CardHeader>
+        {showPicker && (
+          <CardContent className="space-y-4 pt-0">
+            {Array.from(grouped.entries()).map(([category, subjects]) => (
+              <div key={category}>
+                <h4 className="text-sm font-semibold text-muted-foreground mb-2">{category}</h4>
+                <div className="grid gap-1">
+                  {subjects.map((s) => {
+                    const isAdded = registeredIds.has(s.id);
+                    return (
+                      <button
+                        key={s.id}
+                        onClick={() => toggleSubject(s)}
+                        className={`flex items-center gap-3 w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                          isAdded
+                            ? "bg-primary/10 border border-primary/20"
+                            : "hover:bg-muted/50 border border-transparent"
+                        }`}
+                      >
+                        <div className={`flex items-center justify-center w-5 h-5 rounded border-2 flex-shrink-0 ${
+                          isAdded ? "bg-primary border-primary text-primary-foreground" : "border-muted-foreground/30"
+                        }`}>
+                          {isAdded && <Check size={12} />}
+                        </div>
+                        <span className={`flex-1 ${isAdded ? "font-medium" : ""}`}>{s.name}</span>
+                        <span className="text-xs text-muted-foreground font-mono w-10 text-right">{s.credits}</span>
+                        <Badge variant="outline" className={`text-xs font-normal ${classificationStyle(s.classification)}`}>
+                          {s.classification}
+                        </Badge>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+
+            <div className="border-t pt-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowCustom(!showCustom)}
+                className="text-muted-foreground"
+              >
+                <Plus size={14} className="mr-1" />
+                カスタム科目を追加
+              </Button>
+            </div>
+
+            {showCustom && (
+              <div className="flex gap-2 items-end bg-muted/30 p-3 rounded-lg">
+                <div className="flex-1">
+                  <label className="text-xs font-medium text-muted-foreground">科目名</label>
+                  <Input
+                    value={customName}
+                    onChange={(e) => setCustomName(e.target.value)}
+                    placeholder="科目名を入力"
+                    className="mt-1"
+                  />
+                </div>
+                <div className="w-20">
+                  <label className="text-xs font-medium text-muted-foreground">単位</label>
+                  <Input
+                    type="number"
+                    value={customCredits}
+                    onChange={(e) => setCustomCredits(e.target.value)}
+                    min="1"
+                    max="10"
+                    className="mt-1"
+                  />
+                </div>
+                <Button onClick={addCustomCourse}>追加</Button>
+              </div>
+            )}
+          </CardContent>
         )}
-      </CardContent>
-    </Card>
+      </Card>
+    </div>
   );
 };
