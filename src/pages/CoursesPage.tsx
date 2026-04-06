@@ -98,9 +98,19 @@ const SemesterTab = ({
   const allCourses = data.semesters.flatMap((s) => s.courses);
   const totalCredits = sumCreditsForSemester(allCourses, semesterKey);
 
-  const availableSubjects = dept.subjects.filter(
-    (s) => s.year === semesterKey.year && s.semester === semesterKey.semester
-  );
+  const availableSubjects = dept.subjects.filter((s) => {
+    // 配当年チェック: "全" or 配当年にsemesterKey.yearが含まれるか
+    const yearStr = String(semesterKey.year);
+    const yearMatch =
+      s.year === "全" ||
+      s.year === yearStr ||
+      s.year === `${yearStr}年` ||
+      s.year.split(",").some((y) => y.trim().replace("年", "") === yearStr);
+    // 配当期チェック: "前期／後期" なら両方OK
+    const semMatch =
+      s.semester === "前期／後期" || s.semester === semesterKey.semester;
+    return yearMatch && semMatch;
+  });
 
   const creditLimit = dept.creditLimits[0]?.maxCredits ?? 24;
   const overLimit = totalCredits > creditLimit;
@@ -140,7 +150,7 @@ const SemesterTab = ({
       subjectId: `custom-${Date.now()}`,
       subjectName: customName.trim(),
       credits: Number(customCredits),
-      category: "その他",
+      category: "共通教育科目",
       classification: "選択",
       grade: "",
       year: semesterKey.year,

@@ -16,17 +16,17 @@ export const GRADE_POINTS: Record<Grade, number | null> = {
 export const isPassingGrade = (grade: Grade): boolean =>
   grade === "S" || grade === "A" || grade === "B" || grade === "C";
 
-/** 科目区分 */
-export type SubjectCategory =
-  | "人間科学"
-  | "英語"
-  | "工学基礎"
-  | "専門"
-  | "教職"
-  | "その他";
+/** 科目区分（第一区分） */
+export type SubjectCategory = "工学基礎科目" | "専門教育科目" | "共通教育科目";
 
 /** 科目分類 */
-export type SubjectClassification = "必修" | "選択" | "自由";
+export type SubjectClassification = "必修" | "選択" | "択一必修" | "自由";
+
+/** 学期（実際の履修記録用） */
+export type Semester = "前期" | "後期";
+
+/** 配当学期（科目定義用：前期／後期を含む） */
+export type AllocationSemester = "前期" | "後期" | "前期／後期";
 
 /** 科目定義（学科の配当表に基づく） */
 export interface SubjectDefinition {
@@ -35,13 +35,14 @@ export interface SubjectDefinition {
   credits: number;
   category: SubjectCategory;
   classification: SubjectClassification;
-  year: number; // 配当年次
-  semester: Semester;
-  subcategory?: string; // 技術者教養、グローバル教養など
+  subcategory1: string; // 第二区分（例: "数学", "専門科目", "英語科目", "人間科学科目", "キャリア科目"）
+  subcategory2?: string; // 第三区分（例: "情報通信工学基礎", "基幹科目", "技術者教養"）
+  year: string; // 配当年次（例: "1", "2", "全", "1,2", "2,3,4", "3,4"）
+  semester: AllocationSemester;
+  teachingCode?: string; // 教職コード
+  teachingRequired?: boolean; // 教職必須科目
+  notes?: string; // 備考
 }
-
-/** 学期 */
-export type Semester = "前期" | "後期";
 
 /** 学期を特定するキー */
 export interface SemesterKey {
@@ -75,7 +76,8 @@ export interface RequirementItem {
   filter: {
     category?: SubjectCategory;
     classification?: SubjectClassification;
-    subcategory?: string;
+    subcategory1?: string;
+    subcategory2?: string;
   };
 }
 
@@ -100,6 +102,8 @@ export interface DepartmentDefinition {
   id: string;
   name: string;
   faculty: string; // 学部名
+  departmentCode: string; // 学科コード
+  entranceYear: number; // 入学年度
   subjects: SubjectDefinition[];
   promotionRequirements: PromotionRequirement[];
   creditLimits: CreditLimit[];
