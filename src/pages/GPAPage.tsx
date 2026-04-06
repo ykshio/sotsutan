@@ -12,14 +12,29 @@ interface Props {
   data: UserData;
 }
 
-const SEMESTER_ORDER = [
+const UNDERGRAD_SEMESTER_ORDER = [
   "1-前期", "1-後期", "2-前期", "2-後期",
   "3-前期", "3-後期", "4-前期", "4-後期",
 ];
 
+const MASTER_SEMESTER_ORDER = [
+  "0-前期", "1-前期", "1-後期", "2-前期", "2-後期",
+];
+
+const MASTER_SEMESTER_LABELS: Record<string, string> = {
+  "0-前期": "先取り",
+  "1-前期": "1年前期", "1-後期": "1年後期",
+  "2-前期": "2年前期", "2-後期": "2年後期",
+};
+
+const isMasterProgram = (faculty: string) => faculty.includes("研究科");
+
 export const GPAPage = ({ data }: Props) => {
   const dept = getDepartment(data.departmentId);
   if (!dept) return <p>学科データが見つかりません</p>;
+
+  const isMaster = isMasterProgram(dept.faculty);
+  const semesterOrder = isMaster ? MASTER_SEMESTER_ORDER : UNDERGRAD_SEMESTER_ORDER;
 
   const allCourses = data.semesters.flatMap((s) => s.courses);
   const cumulativeGPA = calculateGPA(allCourses);
@@ -106,12 +121,15 @@ export const GPAPage = ({ data }: Props) => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {SEMESTER_ORDER.map((key) => {
+                  {semesterOrder.map((key) => {
                     const gpa = semesterGPAs.get(key);
                     if (!gpa) return null;
+                    const label = isMaster
+                      ? (MASTER_SEMESTER_LABELS[key] ?? key)
+                      : key.replace("-", "年");
                     return (
                       <TableRow key={key}>
-                        <TableCell className="font-medium">{key.replace("-", "年")}</TableCell>
+                        <TableCell className="font-medium">{label}</TableCell>
                         <TableCell className={`text-right font-mono font-semibold ${gpaColor(gpa.gpa)}`}>
                           {gpa.gpa.toFixed(2)}
                         </TableCell>

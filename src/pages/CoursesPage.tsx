@@ -12,12 +12,29 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { Plus, Trash2, AlertTriangle, ChevronDown, ChevronUp, Check } from "lucide-react";
 
-const SEMESTERS: SemesterKey[] = [
+const UNDERGRAD_SEMESTERS: SemesterKey[] = [
   { year: 1, semester: "前期" }, { year: 1, semester: "後期" },
   { year: 2, semester: "前期" }, { year: 2, semester: "後期" },
   { year: 3, semester: "前期" }, { year: 3, semester: "後期" },
   { year: 4, semester: "前期" }, { year: 4, semester: "後期" },
 ];
+
+/** 修士: 先取り(year=0) + M1前期/後期 + M2前期/後期 */
+const MASTER_SEMESTERS: SemesterKey[] = [
+  { year: 0, semester: "前期" },
+  { year: 1, semester: "前期" }, { year: 1, semester: "後期" },
+  { year: 2, semester: "前期" }, { year: 2, semester: "後期" },
+];
+
+const isMasterProgram = (faculty: string) => faculty.includes("研究科");
+
+const semesterLabel = (sk: SemesterKey, isMaster: boolean): string => {
+  if (isMaster) {
+    if (sk.year === 0) return "先取り";
+    return `${sk.year}年${sk.semester}`;
+  }
+  return `${sk.year}年${sk.semester}`;
+};
 
 const GRADES: Grade[] = ["S", "A", "B", "C", "D", "-"];
 
@@ -52,14 +69,16 @@ export const CoursesPage = ({ data, onSetCourses }: Props) => {
   const dept = getDepartment(data.departmentId);
   if (!dept) return <p>学科データが見つかりません</p>;
 
-  const defaultTab = semesterKeyToString(SEMESTERS[0]);
+  const isMaster = isMasterProgram(dept.faculty);
+  const semesters = isMaster ? MASTER_SEMESTERS : UNDERGRAD_SEMESTERS;
+  const defaultTab = semesterKeyToString(semesters[0]);
 
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold tracking-tight">履修記録</h2>
       <Tabs defaultValue={defaultTab}>
         <TabsList className="flex flex-wrap h-auto gap-1 bg-muted/50 p-1">
-          {SEMESTERS.map((sk) => {
+          {semesters.map((sk) => {
             const keyStr = semesterKeyToString(sk);
             const hasData = data.semesters.some(
               (s) => semesterKeyToString(s.key) === keyStr && s.courses.length > 0
@@ -70,13 +89,13 @@ export const CoursesPage = ({ data, onSetCourses }: Props) => {
                 value={keyStr}
                 className="data-[state=active]:bg-white data-[state=active]:shadow-sm"
               >
-                {sk.year}年{sk.semester}
+                {semesterLabel(sk, isMaster)}
                 {hasData && <span className="ml-1 w-1.5 h-1.5 rounded-full bg-primary inline-block" />}
               </TabsTrigger>
             );
           })}
         </TabsList>
-        {SEMESTERS.map((sk) => (
+        {semesters.map((sk) => (
           <TabsContent key={semesterKeyToString(sk)} value={semesterKeyToString(sk)} className="mt-4">
             <SemesterTab
               semesterKey={sk}
@@ -100,6 +119,8 @@ const getMinAllocationYear = (s: SubjectDefinition): number => {
 
 /** 配当科目がこの学期に該当するか（当該年配当） */
 const isSubjectCurrentYear = (s: SubjectDefinition, sk: SemesterKey): boolean => {
+  // 先取り(year=0)は全科目を表示
+  if (sk.year === 0) return true;
   const yearStr = String(sk.year);
   const yearMatch =
     s.year === "全" ||
