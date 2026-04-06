@@ -102,6 +102,7 @@ export const CoursesPage = ({ data, onSetCourses }: Props) => {
               data={data}
               dept={dept}
               onSetCourses={onSetCourses}
+              allSemesters={semesters}
             />
           </TabsContent>
         ))}
@@ -143,6 +144,36 @@ const isSubjectFromPastYear = (s: SubjectDefinition, sk: SemesterKey): boolean =
   return semMatch;
 };
 
+/**
+ * 通年・年次継続科目が展開されるべき学期のリストを返す。
+ * 例: 通年1年配当 → [{1,前期},{1,後期}]
+ * 例: 年次継続1,2年配当 → [{1,前期},{1,後期},{2,前期},{2,後期}]
+ * 通常の半期科目 → 元の学期1つだけ
+ */
+const getSpreadSemesters = (
+  subject: SubjectDefinition,
+  originKey: SemesterKey,
+  allSemesters: SemesterKey[]
+): SemesterKey[] => {
+  // 通年の場合: 同じ年の前期+後期
+  if (subject.semester === "通年") {
+    const yearKeys = allSemesters.filter((sk) => sk.year === originKey.year);
+    return yearKeys.length > 0 ? yearKeys : [originKey];
+  }
+  // 年次継続: "1,2" のような配当年
+  const allocYears = subject.year.split(",").map((y) => Number(y.trim().replace("年", "")));
+  if (allocYears.length > 1) {
+    // originKeyの年から最大配当年まで全学期に展開
+    const maxYear = Math.max(...allocYears);
+    const spreadKeys = allSemesters.filter(
+      (sk) => sk.year >= originKey.year && sk.year <= maxYear && sk.year > 0
+    );
+    return spreadKeys.length > 0 ? spreadKeys : [originKey];
+  }
+  // 通常の半期科目
+  return [originKey];
+};
+
 /** 配当科目をカテゴリごとにグループ化 */
 const groupByCategory = (subjects: SubjectDefinition[]) => {
   const groups = new Map<string, SubjectDefinition[]>();
@@ -160,11 +191,13 @@ const SemesterTab = ({
   data,
   dept,
   onSetCourses,
+  allSemesters,
 }: {
   semesterKey: SemesterKey;
   data: UserData;
   dept: DepartmentDefinition;
   onSetCourses: (key: SemesterKey, courses: CourseRecord[]) => void;
+  allSemesters: SemesterKey[];
 }) => {
   const keyStr = semesterKeyToString(semesterKey);
   const semesterData = data.semesters.find((s) => semesterKeyToString(s.key) === keyStr);
@@ -182,7 +215,8 @@ const SemesterTab = ({
     [dept.subjects, semesterKey]
   );
 
-  const registeredIds = new Set(courses.map((c) => c.subjectId));
+  // 全学期を通して登録済みの科目IDを集める（通年・年次継続の検出用）
+  const registeredIds = new Set(allCourses.map((c) => c.subjectId));
   const currentGrouped = useMemo(() => groupByCategory(currentYearSubjects), [currentYearSubjects]);
   const pastGrouped = useMemo(() => groupByCategory(pastYearSubjects), [pastYearSubjects]);
 
@@ -196,34 +230,76 @@ const SemesterTab = ({
   const [customCredits, setCustomCredits] = useState("2");
 
   const toggleSubject = (subject: SubjectDefinition) => {
+    const spreadKeys = getSpreadSemesters(subject, semesterKey, allSemesters);
+    const creditsPerSemester = subject.credits / spreadKeys.length;
+
     if (registeredIds.has(subject.id)) {
-      // 削除
-      onSetCourses(semesterKey, courses.filter((c) => c.subjectId !== subject.id));
+      // 削除: 全展開先から削除
+      for (const sk of spreadKeys) {
+        const skStr = semesterKeyToString(sk);
+        const semData = data.semesters.find((s) => semesterKeyToString(s.key) === skStr);
+        if (semData) {
+          onSetCourses(sk, semData.courses.filter((c) => c.subjectId !== subject.id));
+        }
+      }
     } else {
-      // 追加
-      const newCourse: CourseRecord = {
-        subjectId: subject.id,
-        subjectName: subject.name,
-        credits: subject.credits,
-        category: subject.category,
-        classification: subject.classification,
-        subcategory1: subject.subcategory1,
-        subcategory2: subject.subcategory2,
-        grade: "",
-        year: semesterKey.year,
-        semester: semesterKey.semester,
-      };
-      onSetCourses(semesterKey, [...courses, newCourse]);
+      // 追加: 全展開先に按分単位で追加
+      for (const sk of spreadKeys) {
+        const skStr = semesterKeyToString(sk);
+        const semData = data.semesters.find((s) => semesterKeyToString(s.key) === skStr);
+        const existingCourses = semData?.courses ?? [];
+        // 既に同じ科目が入っていたらスキップ
+        if (existingCourses.some((c) => c.subjectId === subject.id)) continue;
+        const newCourse: CourseRecord = {
+          subjectId: subject.id,
+          subjectName: subject.name,
+          credits: Math.round(creditsPerSemester * 10) / 10,
+          category: subject.category,
+          classification: subject.classification,
+          subcategory1: subject.subcategory1,
+          subcategory2: subject.subcategory2,
+          grade: "",
+          year: sk.year,
+          semester: sk.semester,
+        };
+        onSetCourses(sk, [...existingCourses, newCourse]);
+      }
     }
   };
 
   const updateGrade = (index: number, grade: Grade) => {
-    const newCourses = courses.map((c, i) => (i === index ? { ...c, grade } : c));
-    onSetCourses(semesterKey, newCourses);
+    const course = courses[index];
+    const subject = dept.subjects.find((s) => s.id === course.subjectId);
+    // 通年・年次継続: 全学期の同じ科目に成績を反映
+    if (subject && (subject.semester === "通年" || subject.year.includes(","))) {
+      for (const sem of data.semesters) {
+        const updated = sem.courses.map((c) =>
+          c.subjectId === course.subjectId ? { ...c, grade } : c
+        );
+        if (updated.some((c, i) => c !== sem.courses[i])) {
+          onSetCourses(sem.key, updated);
+        }
+      }
+    } else {
+      const newCourses = courses.map((c, i) => (i === index ? { ...c, grade } : c));
+      onSetCourses(semesterKey, newCourses);
+    }
   };
 
   const removeCourse = (index: number) => {
-    onSetCourses(semesterKey, courses.filter((_, i) => i !== index));
+    const course = courses[index];
+    const subject = dept.subjects.find((s) => s.id === course.subjectId);
+    // 通年・年次継続: 全学期から削除
+    if (subject && (subject.semester === "通年" || subject.year.includes(","))) {
+      for (const sem of data.semesters) {
+        const filtered = sem.courses.filter((c) => c.subjectId !== course.subjectId);
+        if (filtered.length !== sem.courses.length) {
+          onSetCourses(sem.key, filtered);
+        }
+      }
+    } else {
+      onSetCourses(semesterKey, courses.filter((_, i) => i !== index));
+    }
   };
 
   const addCustomCourse = () => {
