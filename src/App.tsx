@@ -29,7 +29,7 @@ function App() {
           <Route
             index
             element={
-              <HomePage data={data} onSelectDepartment={selectDepartment} />
+              <HomePage data={data} onSelectDepartment={selectDepartment} onResetData={resetData} />
             }
           />
           <Route

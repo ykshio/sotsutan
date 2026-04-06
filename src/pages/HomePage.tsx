@@ -3,12 +3,13 @@ import { departments } from "@/data/departments";
 import type { DepartmentDefinition, UserData } from "@/types";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, BarChart3, Upload, GraduationCap, ArrowRight, Database, Calendar } from "lucide-react";
+import { BookOpen, BarChart3, Upload, GraduationCap, ArrowRight, Database, Calendar, RefreshCw } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface Props {
   data: UserData | null;
   onSelectDepartment: (id: string) => void;
+  onResetData: () => void;
 }
 
 /** 学部ごとにグループ化 */
@@ -22,7 +23,7 @@ const groupByFaculty = (depts: DepartmentDefinition[]) => {
   return groups;
 };
 
-export const HomePage = ({ data, onSelectDepartment }: Props) => {
+export const HomePage = ({ data, onSelectDepartment, onResetData }: Props) => {
   const grouped = useMemo(() => groupByFaculty(departments), []);
 
   if (!data) {
@@ -112,16 +113,31 @@ export const HomePage = ({ data, onSelectDepartment }: Props) => {
 
   return (
     <div className="space-y-8">
-      <div>
-        <p className="text-sm font-medium text-primary">{dept?.faculty}</p>
-        <h2 className="text-2xl font-bold tracking-tight mt-1">
-          {dept?.name ?? "不明な学科"}
-        </h2>
-        {dept && (
-          <p className="text-sm text-muted-foreground mt-0.5">
-            {dept.departmentCode} / {dept.entranceYear}年度入学
-          </p>
-        )}
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-sm font-medium text-primary">{dept?.faculty}</p>
+          <h2 className="text-2xl font-bold tracking-tight mt-1">
+            {dept?.name ?? "不明な学科"}
+          </h2>
+          {dept && (
+            <p className="text-sm text-muted-foreground mt-0.5">
+              {dept.departmentCode} / {dept.entranceYear}年度入学
+            </p>
+          )}
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          className="text-muted-foreground"
+          onClick={() => {
+            if (window.confirm("学科を変更すると現在のデータはリセットされます。よろしいですか？")) {
+              onResetData();
+            }
+          }}
+        >
+          <RefreshCw size={14} className="mr-1" />
+          学科を変更
+        </Button>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
