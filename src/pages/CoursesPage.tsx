@@ -40,7 +40,7 @@ interface Props {
 
 export const CoursesPage = ({ data, onSetCourses }: Props) => {
   const dept = getDepartment(data.departmentId);
-  if (!dept) return <p>学科���ータが見つかりません</p>;
+  if (!dept) return <p>学科データが見つかりません</p>;
 
   const defaultTab = semesterKeyToString(SEMESTERS[0]);
 
