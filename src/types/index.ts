@@ -8,7 +8,7 @@ export const GRADE_POINTS: Record<Grade, number | null> = {
   B: 2,
   C: 1,
   D: 0,
-  "-": 0, // 放棄
+  "-": null, // 放棄（GPA算入せず）
   "": null, // 未入力
 };
 
