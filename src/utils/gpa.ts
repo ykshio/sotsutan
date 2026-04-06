@@ -22,6 +22,7 @@ export interface RequirementCheckItem {
   earned: number;
   shortage: number;
   met: boolean;
+  unit: string; // "単位" or "科目"
 }
 
 /** 進級・卒業判定結果 */
@@ -97,10 +98,17 @@ const checkRequirementItem = (
     if (item.filter.category && c.category !== item.filter.category) return false;
     if (item.filter.classification && c.classification !== item.filter.classification)
       return false;
+    if (item.filter.subcategory1 && c.subcategory1 !== item.filter.subcategory1)
+      return false;
+    if (item.filter.subcategory2 && c.subcategory2 !== item.filter.subcategory2)
+      return false;
     return true;
   });
 
-  const earned = filtered.reduce((sum, c) => sum + c.credits, 0);
+  const isSubjectCount = item.countMode === "subjects";
+  const earned = isSubjectCount
+    ? filtered.length
+    : filtered.reduce((sum, c) => sum + c.credits, 0);
   const shortage = Math.max(0, item.requiredCredits - earned);
 
   return {
@@ -109,6 +117,7 @@ const checkRequirementItem = (
     earned,
     shortage,
     met: shortage === 0,
+    unit: isSubjectCount ? "科目" : "単位",
   };
 };
 

@@ -57,6 +57,8 @@ export interface CourseRecord {
   credits: number;
   category: SubjectCategory;
   classification: SubjectClassification;
+  subcategory1?: string;
+  subcategory2?: string;
   grade: Grade;
   year: number;
   semester: Semester;
@@ -72,7 +74,9 @@ export interface SemesterData {
 export interface RequirementItem {
   label: string;
   requiredCredits: number;
-  /** どの科目がこの要件にカウントされるかのフィルタ */
+  /** "credits"=単位数で判定(デフォルト), "subjects"=科目数で判定 */
+  countMode?: "credits" | "subjects";
+  /** どの科目がこの要件にカウントされるかのフィルタ。省略時は全科目 */
   filter: {
     category?: SubjectCategory;
     classification?: SubjectClassification;

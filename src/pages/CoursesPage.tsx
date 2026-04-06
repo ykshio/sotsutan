@@ -186,6 +186,8 @@ const SemesterTab = ({
         credits: subject.credits,
         category: subject.category,
         classification: subject.classification,
+        subcategory1: subject.subcategory1,
+        subcategory2: subject.subcategory2,
         grade: "",
         year: semesterKey.year,
         semester: semesterKey.semester,

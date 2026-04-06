@@ -240,6 +240,38 @@ export const ec22: DepartmentDefinition = {
     { id: "EC22-166", name: "教育学概論", credits: 2, category: "共通教育科目", classification: "選択", subcategory1: "人間科学科目", subcategory2: "教職教養", year: "2", semester: "前期", teachingCode: "3301", teachingRequired: true, notes: "教職課程履修者のみ履修可" },
     { id: "EC22-167", name: "教育社会学", credits: 2, category: "共通教育科目", classification: "選択", subcategory1: "人間科学科目", subcategory2: "教職教養", year: "2", semester: "後期", teachingCode: "3303", teachingRequired: true, notes: "教職課程履修者のみ履修可" },
   ],
-  promotionRequirements: [],
+  promotionRequirements: [
+    {
+      label: "2年進級",
+      targetYear: 2,
+      items: [
+        { label: "合計", requiredCredits: 24, filter: {} },
+      ],
+    },
+    {
+      label: "4年進級",
+      targetYear: 4,
+      items: [
+        { label: "人間科学科目", requiredCredits: 10, filter: { subcategory1: "人間科学科目" } },
+        { label: "英語科目", requiredCredits: 6, filter: { subcategory1: "英語科目" } },
+        { label: "必修科目", requiredCredits: 16, countMode: "subjects" as const, filter: { classification: "必修" } },
+        { label: "合計", requiredCredits: 104, filter: {} },
+      ],
+    },
+    {
+      label: "卒業",
+      targetYear: 4,
+      items: [
+        { label: "人間科学科目", requiredCredits: 16, filter: { subcategory1: "人間科学科目" } },
+        { label: "技術者教養科目", requiredCredits: 2, filter: { subcategory2: "技術者教養" } },
+        { label: "グローバル教養科目", requiredCredits: 2, filter: { subcategory2: "グローバル教養" } },
+        { label: "英語科目", requiredCredits: 8, filter: { subcategory1: "英語科目" } },
+        { label: "工学基礎科目", requiredCredits: 18, filter: { category: "工学基礎科目" } },
+        { label: "専門科目", requiredCredits: 78, filter: { subcategory1: "専門科目" } },
+        { label: "任意に選択し修得した科目", requiredCredits: 4, filter: {} },
+        { label: "合計", requiredCredits: 124, filter: {} },
+      ],
+    },
+  ],
   creditLimits: [{ label: "通常", maxCredits: 24 }],
 };

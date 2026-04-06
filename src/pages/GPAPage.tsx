@@ -193,11 +193,11 @@ const PromotionCard = ({ result }: { result: PromotionCheckResult }) => (
           {result.items.map((item) => (
             <TableRow key={item.label}>
               <TableCell className="font-medium">{item.label}</TableCell>
-              <TableCell className="text-right">{item.required}</TableCell>
-              <TableCell className="text-right font-semibold">{item.earned}</TableCell>
+              <TableCell className="text-right">{item.required}{item.unit}</TableCell>
+              <TableCell className="text-right font-semibold">{item.earned}{item.unit}</TableCell>
               <TableCell className="text-right">
                 {item.shortage > 0 ? (
-                  <span className="text-red-600 font-semibold">{item.shortage}</span>
+                  <span className="text-red-600 font-semibold">{item.shortage}{item.unit}</span>
                 ) : (
                   <span className="text-muted-foreground">0</span>
                 )}
