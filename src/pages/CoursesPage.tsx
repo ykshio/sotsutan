@@ -91,8 +91,15 @@ export const CoursesPage = ({ data, onSetCourses }: Props) => {
   );
 };
 
-/** 配当科目がこの学期に該当するか */
-const isSubjectAvailable = (s: SubjectDefinition, sk: SemesterKey): boolean => {
+/** 科目の最小配当年を取得 */
+const getMinAllocationYear = (s: SubjectDefinition): number => {
+  if (s.year === "全") return 1;
+  const years = s.year.split(",").map((y) => Number(y.trim().replace("年", "")));
+  return Math.min(...years);
+};
+
+/** 配当科目がこの学期に該当するか（当該年配当） */
+const isSubjectCurrentYear = (s: SubjectDefinition, sk: SemesterKey): boolean => {
   const yearStr = String(sk.year);
   const yearMatch =
     s.year === "全" ||
@@ -102,6 +109,17 @@ const isSubjectAvailable = (s: SubjectDefinition, sk: SemesterKey): boolean => {
   const semMatch =
     s.semester === "前期／後期" || s.semester === sk.semester;
   return yearMatch && semMatch;
+};
+
+/** 過去の配当科目がこの学期でも履修可能か（配当年より上の学年） */
+const isSubjectFromPastYear = (s: SubjectDefinition, sk: SemesterKey): boolean => {
+  const minYear = getMinAllocationYear(s);
+  // 配当年より現在の学年が上で、かつ当該年の配当ではない
+  if (minYear >= sk.year) return false;
+  if (isSubjectCurrentYear(s, sk)) return false;
+  const semMatch =
+    s.semester === "前期／後期" || s.semester === sk.semester;
+  return semMatch;
 };
 
 /** 配当科目をカテゴリごとにグループ化 */
@@ -133,18 +151,25 @@ const SemesterTab = ({
   const allCourses = data.semesters.flatMap((s) => s.courses);
   const totalCredits = sumCreditsForSemester(allCourses, semesterKey);
 
-  const availableSubjects = useMemo(
-    () => dept.subjects.filter((s) => isSubjectAvailable(s, semesterKey)),
+  const currentYearSubjects = useMemo(
+    () => dept.subjects.filter((s) => isSubjectCurrentYear(s, semesterKey)),
+    [dept.subjects, semesterKey]
+  );
+
+  const pastYearSubjects = useMemo(
+    () => dept.subjects.filter((s) => isSubjectFromPastYear(s, semesterKey)),
     [dept.subjects, semesterKey]
   );
 
   const registeredIds = new Set(courses.map((c) => c.subjectId));
-  const grouped = useMemo(() => groupByCategory(availableSubjects), [availableSubjects]);
+  const currentGrouped = useMemo(() => groupByCategory(currentYearSubjects), [currentYearSubjects]);
+  const pastGrouped = useMemo(() => groupByCategory(pastYearSubjects), [pastYearSubjects]);
 
   const creditLimit = dept.creditLimits[0]?.maxCredits ?? 24;
   const overLimit = totalCredits > creditLimit;
 
   const [showPicker, setShowPicker] = useState(false);
+  const [showPastYears, setShowPastYears] = useState(false);
   const [showCustom, setShowCustom] = useState(false);
   const [customName, setCustomName] = useState("");
   const [customCredits, setCustomCredits] = useState("2");
@@ -295,47 +320,43 @@ const SemesterTab = ({
             <CardTitle className="text-base flex items-center gap-2">
               <Plus size={16} />
               科目を追加
-              <Badge variant="secondary" className="font-normal">
-                {availableSubjects.length - registeredIds.size} 科目
-              </Badge>
             </CardTitle>
             {showPicker ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
           </div>
         </CardHeader>
         {showPicker && (
           <CardContent className="space-y-4 pt-0">
-            {Array.from(grouped.entries()).map(([category, subjects]) => (
-              <div key={category}>
-                <h4 className="text-sm font-semibold text-muted-foreground mb-2">{category}</h4>
-                <div className="grid gap-1">
-                  {subjects.map((s) => {
-                    const isAdded = registeredIds.has(s.id);
-                    return (
-                      <button
-                        key={s.id}
-                        onClick={() => toggleSubject(s)}
-                        className={`flex items-center gap-3 w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                          isAdded
-                            ? "bg-primary/10 border border-primary/20"
-                            : "hover:bg-muted/50 border border-transparent"
-                        }`}
-                      >
-                        <div className={`flex items-center justify-center w-5 h-5 rounded border-2 flex-shrink-0 ${
-                          isAdded ? "bg-primary border-primary text-primary-foreground" : "border-muted-foreground/30"
-                        }`}>
-                          {isAdded && <Check size={12} />}
-                        </div>
-                        <span className={`flex-1 ${isAdded ? "font-medium" : ""}`}>{s.name}</span>
-                        <span className="text-xs text-muted-foreground font-mono w-10 text-right">{s.credits}</span>
-                        <Badge variant="outline" className={`text-xs font-normal ${classificationStyle(s.classification)}`}>
-                          {s.classification}
-                        </Badge>
-                      </button>
-                    );
-                  })}
-                </div>
+            {/* 当該年配当科目 */}
+            <SubjectPickerList
+              grouped={currentGrouped}
+              registeredIds={registeredIds}
+              onToggle={toggleSubject}
+            />
+
+            {/* 過去の配当科目 */}
+            {pastYearSubjects.length > 0 && (
+              <div className="border-t pt-3">
+                <button
+                  onClick={() => setShowPastYears(!showPastYears)}
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {showPastYears ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                  <span>過去の配当科目</span>
+                  <Badge variant="secondary" className="font-normal text-xs">
+                    {pastYearSubjects.length} 科目
+                  </Badge>
+                </button>
+                {showPastYears && (
+                  <div className="mt-3 space-y-4">
+                    <SubjectPickerList
+                      grouped={pastGrouped}
+                      registeredIds={registeredIds}
+                      onToggle={toggleSubject}
+                    />
+                  </div>
+                )}
               </div>
-            ))}
+            )}
 
             <div className="border-t pt-3">
               <Button
@@ -380,3 +401,49 @@ const SemesterTab = ({
     </div>
   );
 };
+
+/** カテゴリ別科目チェックリスト */
+const SubjectPickerList = ({
+  grouped,
+  registeredIds,
+  onToggle,
+}: {
+  grouped: Map<string, SubjectDefinition[]>;
+  registeredIds: Set<string>;
+  onToggle: (subject: SubjectDefinition) => void;
+}) => (
+  <>
+    {Array.from(grouped.entries()).map(([category, subjects]) => (
+      <div key={category}>
+        <h4 className="text-sm font-semibold text-muted-foreground mb-2">{category}</h4>
+        <div className="grid gap-1">
+          {subjects.map((s) => {
+            const isAdded = registeredIds.has(s.id);
+            return (
+              <button
+                key={s.id}
+                onClick={() => onToggle(s)}
+                className={`flex items-center gap-3 w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                  isAdded
+                    ? "bg-primary/10 border border-primary/20"
+                    : "hover:bg-muted/50 border border-transparent"
+                }`}
+              >
+                <div className={`flex items-center justify-center w-5 h-5 rounded border-2 flex-shrink-0 ${
+                  isAdded ? "bg-primary border-primary text-primary-foreground" : "border-muted-foreground/30"
+                }`}>
+                  {isAdded && <Check size={12} />}
+                </div>
+                <span className={`flex-1 ${isAdded ? "font-medium" : ""}`}>{s.name}</span>
+                <span className="text-xs text-muted-foreground font-mono w-10 text-right">{s.credits}</span>
+                <Badge variant="outline" className={`text-xs font-normal ${classificationStyle(s.classification)}`}>
+                  {s.classification}
+                </Badge>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    ))}
+  </>
+);
