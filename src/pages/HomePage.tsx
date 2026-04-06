@@ -1,8 +1,9 @@
+import { useMemo } from "react";
 import { departments } from "@/data/departments";
-import type { UserData } from "@/types";
+import type { DepartmentDefinition, UserData } from "@/types";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, BarChart3, Upload, GraduationCap, ArrowRight, Database } from "lucide-react";
+import { BookOpen, BarChart3, Upload, GraduationCap, ArrowRight, Database, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface Props {
@@ -10,7 +11,20 @@ interface Props {
   onSelectDepartment: (id: string) => void;
 }
 
+/** 学部ごとにグループ化 */
+const groupByFaculty = (depts: DepartmentDefinition[]) => {
+  const groups = new Map<string, DepartmentDefinition[]>();
+  for (const d of depts) {
+    const list = groups.get(d.faculty) ?? [];
+    list.push(d);
+    groups.set(d.faculty, list);
+  }
+  return groups;
+};
+
 export const HomePage = ({ data, onSelectDepartment }: Props) => {
+  const grouped = useMemo(() => groupByFaculty(departments), []);
+
   if (!data) {
     return (
       <div className="space-y-10">
@@ -22,33 +36,61 @@ export const HomePage = ({ data, onSelectDepartment }: Props) => {
           <p className="text-muted-foreground mt-2 text-lg">単位計算・進級/卒業判定システム</p>
         </div>
 
-        <div>
-          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">学科を選択</h3>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {departments.map((dept) => (
-              <Card
-                key={dept.id}
-                className="group cursor-pointer border-2 border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-200"
-                onClick={() => onSelectDepartment(dept.id)}
-              >
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <CardTitle className="text-lg group-hover:text-primary transition-colors">{dept.name}</CardTitle>
-                      <CardDescription className="mt-1">{dept.faculty}</CardDescription>
-                    </div>
-                    <ArrowRight size={18} className="text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex gap-4 text-sm text-muted-foreground">
-                    <span>{dept.subjects.length} 科目</span>
-                    <span>{dept.promotionRequirements.length} 判定要件</span>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+        <div className="space-y-6">
+          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">学科・入学年度を選択</h3>
+          {Array.from(grouped.entries()).map(([faculty, depts]) => {
+            // 同一学科名でまとめて入学年度を表示
+            const byName = new Map<string, DepartmentDefinition[]>();
+            for (const d of depts) {
+              const key = `${d.departmentCode}-${d.name}`;
+              const list = byName.get(key) ?? [];
+              list.push(d);
+              byName.set(key, list);
+            }
+
+            return (
+              <div key={faculty}>
+                <h4 className="text-sm font-medium text-foreground mb-3">{faculty}</h4>
+                <div className="grid gap-3">
+                  {Array.from(byName.entries()).map(([key, variants]) => {
+                    const first = variants[0];
+                    // 年度でソート（新しい順）
+                    const sorted = [...variants].sort((a, b) => b.entranceYear - a.entranceYear);
+
+                    return (
+                      <Card key={key} className="overflow-hidden">
+                        <CardHeader className="pb-3">
+                          <div className="flex items-start justify-between">
+                            <div>
+                              <CardTitle className="text-base">{first.name}</CardTitle>
+                              <CardDescription className="mt-0.5">
+                                {first.departmentCode} / {first.subjects.length} 科目
+                              </CardDescription>
+                            </div>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="pt-0">
+                          <div className="flex flex-wrap gap-2">
+                            {sorted.map((d) => (
+                              <button
+                                key={d.id}
+                                onClick={() => onSelectDepartment(d.id)}
+                                className="group flex items-center gap-2 px-3 py-2 rounded-lg border-2 border-transparent bg-muted/50 hover:border-primary/30 hover:bg-primary/5 transition-all"
+                              >
+                                <Calendar size={14} className="text-muted-foreground group-hover:text-primary" />
+                                <span className="text-sm font-medium group-hover:text-primary">{d.entranceYear}年度入学</span>
+                                <ArrowRight size={14} className="text-muted-foreground/30 group-hover:text-primary transition-colors" />
+                              </button>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         <div className="border-t pt-6">
@@ -72,7 +114,14 @@ export const HomePage = ({ data, onSelectDepartment }: Props) => {
     <div className="space-y-8">
       <div>
         <p className="text-sm font-medium text-primary">{dept?.faculty}</p>
-        <h2 className="text-2xl font-bold tracking-tight mt-1">{dept?.name ?? "不明な学科"}</h2>
+        <h2 className="text-2xl font-bold tracking-tight mt-1">
+          {dept?.name ?? "不明な学科"}
+        </h2>
+        {dept && (
+          <p className="text-sm text-muted-foreground mt-0.5">
+            {dept.departmentCode} / {dept.entranceYear}年度入学
+          </p>
+        )}
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
