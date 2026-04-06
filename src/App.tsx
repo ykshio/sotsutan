@@ -13,6 +13,7 @@ function App() {
     data,
     selectDepartment,
     setCourses,
+    setMultiCourses,
     importCourses,
     resetData,
   } = useUserData();
@@ -36,7 +37,7 @@ function App() {
             path="courses"
             element={
               data ? (
-                <CoursesPage data={data} onSetCourses={setCourses} />
+                <CoursesPage data={data} onSetCourses={setCourses} onSetMultiCourses={setMultiCourses} />
               ) : (
                 <NeedSetup />
               )

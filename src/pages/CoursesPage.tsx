@@ -63,9 +63,10 @@ const classificationStyle = (c: string) => {
 interface Props {
   data: UserData;
   onSetCourses: (key: SemesterKey, courses: CourseRecord[]) => void;
+  onSetMultiCourses: (updates: { key: SemesterKey; courses: CourseRecord[] }[]) => void;
 }
 
-export const CoursesPage = ({ data, onSetCourses }: Props) => {
+export const CoursesPage = ({ data, onSetCourses, onSetMultiCourses }: Props) => {
   const dept = getDepartment(data.departmentId);
   if (!dept) return <p>学科データが見つかりません</p>;
 
@@ -102,6 +103,7 @@ export const CoursesPage = ({ data, onSetCourses }: Props) => {
               data={data}
               dept={dept}
               onSetCourses={onSetCourses}
+              onSetMultiCourses={onSetMultiCourses}
               allSemesters={semesters}
             />
           </TabsContent>
@@ -191,12 +193,14 @@ const SemesterTab = ({
   data,
   dept,
   onSetCourses,
+  onSetMultiCourses,
   allSemesters,
 }: {
   semesterKey: SemesterKey;
   data: UserData;
   dept: DepartmentDefinition;
   onSetCourses: (key: SemesterKey, courses: CourseRecord[]) => void;
+  onSetMultiCourses: (updates: { key: SemesterKey; courses: CourseRecord[] }[]) => void;
   allSemesters: SemesterKey[];
 }) => {
   const keyStr = semesterKeyToString(semesterKey);
@@ -234,22 +238,22 @@ const SemesterTab = ({
     const creditsPerSemester = subject.credits / spreadKeys.length;
 
     if (registeredIds.has(subject.id)) {
-      // 削除: 全展開先から削除
-      for (const sk of spreadKeys) {
+      // 削除: 全展開先から一括削除
+      const updates = spreadKeys.map((sk) => {
         const skStr = semesterKeyToString(sk);
         const semData = data.semesters.find((s) => semesterKeyToString(s.key) === skStr);
-        if (semData) {
-          onSetCourses(sk, semData.courses.filter((c) => c.subjectId !== subject.id));
-        }
-      }
+        return { key: sk, courses: (semData?.courses ?? []).filter((c) => c.subjectId !== subject.id) };
+      });
+      onSetMultiCourses(updates);
     } else {
-      // 追加: 全展開先に按分単位で追加
-      for (const sk of spreadKeys) {
+      // 追加: 全展開先に按分単位で一括追加
+      const updates = spreadKeys.map((sk) => {
         const skStr = semesterKeyToString(sk);
         const semData = data.semesters.find((s) => semesterKeyToString(s.key) === skStr);
         const existingCourses = semData?.courses ?? [];
-        // 既に同じ科目が入っていたらスキップ
-        if (existingCourses.some((c) => c.subjectId === subject.id)) continue;
+        if (existingCourses.some((c) => c.subjectId === subject.id)) {
+          return { key: sk, courses: existingCourses };
+        }
         const newCourse: CourseRecord = {
           subjectId: subject.id,
           subjectName: subject.name,
@@ -262,41 +266,43 @@ const SemesterTab = ({
           year: sk.year,
           semester: sk.semester,
         };
-        onSetCourses(sk, [...existingCourses, newCourse]);
-      }
+        return { key: sk, courses: [...existingCourses, newCourse] };
+      });
+      onSetMultiCourses(updates);
     }
   };
 
   const updateGrade = (index: number, grade: Grade) => {
     const course = courses[index];
     const subject = dept.subjects.find((s) => s.id === course.subjectId);
-    // 通年・年次継続: 全学期の同じ科目に成績を反映
     if (subject && (subject.semester === "通年" || subject.year.includes(","))) {
-      for (const sem of data.semesters) {
-        const updated = sem.courses.map((c) =>
-          c.subjectId === course.subjectId ? { ...c, grade } : c
-        );
-        if (updated.some((c, i) => c !== sem.courses[i])) {
-          onSetCourses(sem.key, updated);
-        }
-      }
+      // 通年・年次継続: 全学期の同じ科目に成績を一括反映
+      const updates = data.semesters
+        .filter((sem) => sem.courses.some((c) => c.subjectId === course.subjectId))
+        .map((sem) => ({
+          key: sem.key,
+          courses: sem.courses.map((c) =>
+            c.subjectId === course.subjectId ? { ...c, grade } : c
+          ),
+        }));
+      onSetMultiCourses(updates);
     } else {
-      const newCourses = courses.map((c, i) => (i === index ? { ...c, grade } : c));
-      onSetCourses(semesterKey, newCourses);
+      onSetCourses(semesterKey, courses.map((c, i) => (i === index ? { ...c, grade } : c)));
     }
   };
 
   const removeCourse = (index: number) => {
     const course = courses[index];
     const subject = dept.subjects.find((s) => s.id === course.subjectId);
-    // 通年・年次継続: 全学期から削除
     if (subject && (subject.semester === "通年" || subject.year.includes(","))) {
-      for (const sem of data.semesters) {
-        const filtered = sem.courses.filter((c) => c.subjectId !== course.subjectId);
-        if (filtered.length !== sem.courses.length) {
-          onSetCourses(sem.key, filtered);
-        }
-      }
+      // 通年・年次継続: 全学期から一括削除
+      const updates = data.semesters
+        .filter((sem) => sem.courses.some((c) => c.subjectId === course.subjectId))
+        .map((sem) => ({
+          key: sem.key,
+          courses: sem.courses.filter((c) => c.subjectId !== course.subjectId),
+        }));
+      onSetMultiCourses(updates);
     } else {
       onSetCourses(semesterKey, courses.filter((_, i) => i !== index));
     }

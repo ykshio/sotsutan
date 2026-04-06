@@ -52,6 +52,29 @@ export const useUserData = () => {
     [data, save]
   );
 
+  /** 複数学期を一括更新（通年・年次継続用） */
+  const setMultiCourses = useCallback(
+    (updates: { key: SemesterKey; courses: CourseRecord[] }[]) => {
+      if (!data) return;
+      let newSemesters = [...data.semesters];
+      for (const { key, courses } of updates) {
+        const keyStr = semesterKeyToString(key);
+        const existing = newSemesters.find(
+          (s) => semesterKeyToString(s.key) === keyStr
+        );
+        if (existing) {
+          newSemesters = newSemesters.map((s) =>
+            semesterKeyToString(s.key) === keyStr ? { ...s, courses } : s
+          );
+        } else {
+          newSemesters = [...newSemesters, { key, courses }];
+        }
+      }
+      save({ ...data, semesters: newSemesters });
+    },
+    [data, save]
+  );
+
   const importCourses = useCallback(
     (courses: CourseRecord[]) => {
       if (!data) return;
@@ -117,6 +140,7 @@ export const useUserData = () => {
     selectDepartment,
     getAllCourses,
     setCourses,
+    setMultiCourses,
     importCourses,
     setRanking,
     resetData,
