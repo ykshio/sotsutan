@@ -2,6 +2,7 @@ import type {
   CourseRecord,
   Grade,
   PromotionRequirement,
+  RequirementFilter,
   RequirementItem,
   SemesterKey,
 } from "@/types";
@@ -22,7 +23,7 @@ export interface RequirementCheckItem {
   earned: number;
   shortage: number;
   met: boolean;
-  unit: string; // "単位" or "科目"
+  unit: string;
 }
 
 /** 進級・卒業判定結果 */
@@ -86,6 +87,20 @@ export const calculateSemesterGPAs = (
   return results;
 };
 
+/** フィルタに合致する修得済み科目の単位数を合計 */
+const sumPassingCredits = (courses: CourseRecord[], filter: RequirementFilter): number => {
+  return courses
+    .filter((c) => {
+      if (!isPassingGrade(c.grade)) return false;
+      if (filter.category && c.category !== filter.category) return false;
+      if (filter.classification && c.classification !== filter.classification) return false;
+      if (filter.subcategory1 && c.subcategory1 !== filter.subcategory1) return false;
+      if (filter.subcategory2 && c.subcategory2 !== filter.subcategory2) return false;
+      return true;
+    })
+    .reduce((sum, c) => sum + c.credits, 0);
+};
+
 /**
  * 要件1項目をチェック
  */
@@ -93,31 +108,57 @@ const checkRequirementItem = (
   item: RequirementItem,
   courses: CourseRecord[]
 ): RequirementCheckItem => {
-  const filtered = courses.filter((c) => {
-    if (!isPassingGrade(c.grade)) return false;
-    if (item.filter.category && c.category !== item.filter.category) return false;
-    if (item.filter.classification && c.classification !== item.filter.classification)
-      return false;
-    if (item.filter.subcategory1 && c.subcategory1 !== item.filter.subcategory1)
-      return false;
-    if (item.filter.subcategory2 && c.subcategory2 !== item.filter.subcategory2)
-      return false;
-    return true;
-  });
+  // overflow: 各区分の超過分を合算
+  if (item.countMode === "overflow" && item.overflowSources) {
+    let totalOverflow = 0;
+    for (const source of item.overflowSources) {
+      const earned = sumPassingCredits(courses, source.filter);
+      const overflow = Math.max(0, earned - source.requiredCredits);
+      totalOverflow += overflow;
+    }
+    const shortage = Math.max(0, item.requiredCredits - totalOverflow);
+    return {
+      label: item.label,
+      required: item.requiredCredits,
+      earned: totalOverflow,
+      shortage,
+      met: shortage === 0,
+      unit: "単位",
+    };
+  }
 
-  const isSubjectCount = item.countMode === "subjects";
-  const earned = isSubjectCount
-    ? filtered.length
-    : filtered.reduce((sum, c) => sum + c.credits, 0);
+  // subjects: 科目数カウント
+  if (item.countMode === "subjects") {
+    const filtered = courses.filter((c) => {
+      if (!isPassingGrade(c.grade)) return false;
+      if (item.filter.category && c.category !== item.filter.category) return false;
+      if (item.filter.classification && c.classification !== item.filter.classification) return false;
+      if (item.filter.subcategory1 && c.subcategory1 !== item.filter.subcategory1) return false;
+      if (item.filter.subcategory2 && c.subcategory2 !== item.filter.subcategory2) return false;
+      return true;
+    });
+    const earned = filtered.length;
+    const shortage = Math.max(0, item.requiredCredits - earned);
+    return {
+      label: item.label,
+      required: item.requiredCredits,
+      earned,
+      shortage,
+      met: shortage === 0,
+      unit: "科目",
+    };
+  }
+
+  // credits: 通常の単位数カウント（デフォルト）
+  const earned = sumPassingCredits(courses, item.filter);
   const shortage = Math.max(0, item.requiredCredits - earned);
-
   return {
     label: item.label,
     required: item.requiredCredits,
     earned,
     shortage,
     met: shortage === 0,
-    unit: isSubjectCount ? "科目" : "単位",
+    unit: "単位",
   };
 };
 

@@ -74,15 +74,19 @@ export interface SemesterData {
 export interface RequirementItem {
   label: string;
   requiredCredits: number;
-  /** "credits"=単位数で判定(デフォルト), "subjects"=科目数で判定 */
-  countMode?: "credits" | "subjects";
+  /** "credits"=単位数で判定(デフォルト), "subjects"=科目数で判定, "overflow"=他要件の超過分合算 */
+  countMode?: "credits" | "subjects" | "overflow";
+  /** overflow時: 超過分を計算する元の要件ラベルと必要単位のペア */
+  overflowSources?: { label: string; requiredCredits: number; filter: RequirementFilter }[];
   /** どの科目がこの要件にカウントされるかのフィルタ。省略時は全科目 */
-  filter: {
-    category?: SubjectCategory;
-    classification?: SubjectClassification;
-    subcategory1?: string;
-    subcategory2?: string;
-  };
+  filter: RequirementFilter;
+}
+
+export interface RequirementFilter {
+  category?: SubjectCategory;
+  classification?: SubjectClassification;
+  subcategory1?: string;
+  subcategory2?: string;
 }
 
 /** 進級・卒業判定の定義 */
