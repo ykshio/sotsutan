@@ -19,7 +19,7 @@ const SEMESTERS: SemesterKey[] = [
   { year: 4, semester: "前期" }, { year: 4, semester: "後期" },
 ];
 
-const GRADES: Grade[] = ["S", "A", "B", "C", "D", "F", ""];
+const GRADES: Grade[] = ["S", "A", "B", "C", "D", "-"];
 
 const gradeStyle = (grade: Grade) => {
   switch (grade) {
@@ -28,7 +28,7 @@ const gradeStyle = (grade: Grade) => {
     case "B": return "bg-yellow-100 text-yellow-700 border-yellow-200";
     case "C": return "bg-orange-100 text-orange-700 border-orange-200";
     case "D": return "bg-red-100 text-red-700 border-red-200";
-    case "F": return "bg-red-200 text-red-800 border-red-300";
+    case "-": return "bg-gray-200 text-gray-600 border-gray-300";
     default: return "bg-muted text-muted-foreground";
   }
 };

@@ -1,5 +1,5 @@
 /** 評定 */
-export type Grade = "S" | "A" | "B" | "C" | "D" | "F" | "";
+export type Grade = "S" | "A" | "B" | "C" | "D" | "-" | "";
 
 /** 評定のGPポイント */
 export const GRADE_POINTS: Record<Grade, number | null> = {
@@ -8,7 +8,7 @@ export const GRADE_POINTS: Record<Grade, number | null> = {
   B: 2,
   C: 1,
   D: 0,
-  F: 0,
+  "-": 0, // 放棄
   "": null, // 未入力
 };
 

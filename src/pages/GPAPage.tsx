@@ -99,7 +99,7 @@ export const GPAPage = ({ data }: Props) => {
                     <TableHead className="text-center">A</TableHead>
                     <TableHead className="text-center">B</TableHead>
                     <TableHead className="text-center">C</TableHead>
-                    <TableHead className="text-center">D/F</TableHead>
+                    <TableHead className="text-center">D/-</TableHead>
                     {Object.keys(data.rankings).length > 0 && (
                       <TableHead className="text-right">順位</TableHead>
                     )}
@@ -122,7 +122,7 @@ export const GPAPage = ({ data }: Props) => {
                         <TableCell className="text-center text-muted-foreground">{gpa.gradeDistribution.B || "-"}</TableCell>
                         <TableCell className="text-center text-muted-foreground">{gpa.gradeDistribution.C || "-"}</TableCell>
                         <TableCell className="text-center text-muted-foreground">
-                          {(gpa.gradeDistribution.D + gpa.gradeDistribution.F) || "-"}
+                          {(gpa.gradeDistribution.D + gpa.gradeDistribution["-"]) || "-"}
                         </TableCell>
                         {Object.keys(data.rankings).length > 0 && (
                           <TableCell className="text-right">
