@@ -108,9 +108,9 @@ export const useUserData = () => {
   );
 
   const resetData = useCallback(() => {
-    if (!data) return;
-    save(createInitialUserData(data.departmentId));
-  }, [data, save]);
+    clearUserData();
+    setData(null);
+  }, []);
 
   return {
     data,
