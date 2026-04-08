@@ -122,7 +122,7 @@ export interface UserData {
   departmentId: string;
   semesters: SemesterData[];
   /** 学期ごとの学科順位（手動入力） */
-  rankings: Record<string, number>; // key: "1-前期" のような文字列
+  rankings: Record<string, { rank: number; total: number }>;
 }
 
 /** セメスターキーを文字列に変換 */

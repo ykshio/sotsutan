@@ -15,6 +15,7 @@ function App() {
     setCourses,
     setMultiCourses,
     importCourses,
+    setRanking,
     resetData,
   } = useUserData();
 
@@ -46,7 +47,7 @@ function App() {
           <Route
             path="gpa"
             element={
-              data ? <GPAPage data={data} /> : <NeedSetup />
+              data ? <GPAPage data={data} onSetRanking={setRanking} /> : <NeedSetup />
             }
           />
           <Route

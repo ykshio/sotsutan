@@ -1,4 +1,5 @@
-import type { UserData } from "@/types";
+import type { SemesterKey, UserData } from "@/types";
+import { stringToSemesterKey } from "@/types";
 import { getDepartment } from "@/data/departments";
 import { calculateGPA, calculateSemesterGPAs, checkPromotion } from "@/utils/gpa";
 import type { PromotionCheckResult } from "@/utils/gpa";
@@ -7,10 +8,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
 import { TrendingUp, CheckCircle2, XCircle } from "lucide-react";
 
 interface Props {
   data: UserData;
+  onSetRanking: (key: SemesterKey, rank: number, total: number) => void;
 }
 
 const UNDERGRAD_SEMESTER_ORDER = [
@@ -30,7 +33,7 @@ const MASTER_SEMESTER_LABELS: Record<string, string> = {
 
 const isMasterProgram = (faculty: string) => faculty.includes("研究科");
 
-export const GPAPage = ({ data }: Props) => {
+export const GPAPage = ({ data, onSetRanking }: Props) => {
   const dept = getDepartment(data.departmentId);
   if (!dept) return <p>学科データが見つかりません</p>;
 
@@ -124,9 +127,7 @@ export const GPAPage = ({ data }: Props) => {
                     <TableHead className="text-center">B</TableHead>
                     <TableHead className="text-center">C</TableHead>
                     <TableHead className="text-center">D/-</TableHead>
-                    {Object.keys(data.rankings).length > 0 && (
-                      <TableHead className="text-right">順位</TableHead>
-                    )}
+                    <TableHead className="text-center">順位</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -151,11 +152,12 @@ export const GPAPage = ({ data }: Props) => {
                         <TableCell className="text-center text-muted-foreground">
                           {(gpa.gradeDistribution.D + gpa.gradeDistribution["-"]) || "-"}
                         </TableCell>
-                        {Object.keys(data.rankings).length > 0 && (
-                          <TableCell className="text-right">
-                            {data.rankings[key] ? `${data.rankings[key]}位` : "-"}
-                          </TableCell>
-                        )}
+                        <TableCell>
+                          <RankingInput
+                            value={data.rankings[key]}
+                            onChange={(rank, total) => onSetRanking(stringToSemesterKey(key), rank, total)}
+                          />
+                        </TableCell>
                       </TableRow>
                     );
                   })}
@@ -251,3 +253,35 @@ const PromotionCard = ({ result }: { result: PromotionCheckResult }) => (
     </CardContent>
   </Card>
 );
+
+const RankingInput = ({
+  value,
+  onChange,
+}: {
+  value?: { rank: number; total: number };
+  onChange: (rank: number, total: number) => void;
+}) => {
+  const rank = value?.rank ?? 0;
+  const total = value?.total ?? 0;
+  return (
+    <div className="flex items-center gap-1 justify-center">
+      <Input
+        type="number"
+        min={0}
+        className="w-12 h-7 text-xs text-center p-0"
+        value={rank || ""}
+        placeholder="-"
+        onChange={(e) => onChange(Number(e.target.value) || 0, total)}
+      />
+      <span className="text-xs text-muted-foreground">/</span>
+      <Input
+        type="number"
+        min={0}
+        className="w-12 h-7 text-xs text-center p-0"
+        value={total || ""}
+        placeholder="-"
+        onChange={(e) => onChange(rank, Number(e.target.value) || 0)}
+      />
+    </div>
+  );
+};

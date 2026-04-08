@@ -120,11 +120,11 @@ export const useUserData = () => {
   );
 
   const setRanking = useCallback(
-    (key: SemesterKey, rank: number) => {
+    (key: SemesterKey, rank: number, total: number) => {
       if (!data) return;
       save({
         ...data,
-        rankings: { ...data.rankings, [semesterKeyToString(key)]: rank },
+        rankings: { ...data.rankings, [semesterKeyToString(key)]: { rank, total } },
       });
     },
     [data, save]
