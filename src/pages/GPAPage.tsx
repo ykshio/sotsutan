@@ -187,11 +187,14 @@ export const GPAPage = ({ data, onSetRanking }: Props) => {
   );
 };
 
-const PromotionCard = ({ result }: { result: PromotionCheckResult }) => (
-  <Card className={result.allMet ? "border-emerald-200 bg-emerald-50/30" : ""}>
+const PromotionCard = ({ result }: { result: PromotionCheckResult }) => {
+  const isJabee = result.label.includes("JABEE");
+  return (
+  <Card className={`${result.allMet ? "border-emerald-200 bg-emerald-50/30" : ""} ${isJabee ? "border-purple-200" : ""}`}>
     <CardHeader>
       <div className="flex items-center justify-between">
         <CardTitle className="text-lg flex items-center gap-2">
+          {isJabee && <span className="text-xs font-mono text-purple-600 bg-purple-50 px-1.5 py-0.5 rounded">JABEE</span>}
           {result.allMet ? (
             <CheckCircle2 size={20} className="text-emerald-600" />
           ) : (
@@ -252,7 +255,8 @@ const PromotionCard = ({ result }: { result: PromotionCheckResult }) => (
       </Table>
     </CardContent>
   </Card>
-);
+  );
+};
 
 const RankingInput = ({
   value,

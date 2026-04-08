@@ -419,7 +419,20 @@ const SemesterTab = ({
                           </button>
                         </div>
                       </TableCell>
-                      <TableCell className="font-medium">{course.subjectName}</TableCell>
+                      <TableCell className="font-medium">
+                        <div className="flex items-center gap-1.5">
+                          {course.subjectName}
+                          {(() => {
+                            const subj = dept.subjects.find((s) => s.id === course.subjectId);
+                            if (!subj?.jabeeCategory) return null;
+                            return (
+                              <span className="text-[10px] font-mono text-purple-600 bg-purple-50 px-1 rounded flex-shrink-0">
+                                {subj.jabeeCategory}
+                              </span>
+                            );
+                          })()}
+                        </div>
+                      </TableCell>
                       <TableCell className="text-center font-mono">{course.credits}</TableCell>
                       <TableCell>
                         <Badge variant="outline" className={`text-xs font-normal ${classificationStyle(course.classification)}`}>
@@ -594,6 +607,9 @@ const SubjectPickerList = ({
                   {isAdded && <Check size={12} />}
                 </div>
                 <span className={`flex-1 ${isAdded ? "font-medium" : ""}`}>{s.name}</span>
+                {s.jabeeCategory && (
+                  <span className="text-[10px] font-mono text-purple-600 bg-purple-50 px-1 rounded">{s.jabeeCategory}</span>
+                )}
                 <span className="text-xs text-muted-foreground font-mono w-10 text-right">{s.credits}</span>
                 <Badge variant="outline" className={`text-xs font-normal ${classificationStyle(s.classification)}`}>
                   {s.classification}
