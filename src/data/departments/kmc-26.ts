@@ -17,7 +17,7 @@ export const kmc26: DepartmentDefinition = {
     { id: "KMC26-002", name: "情報通信工学特別演習Ⅱ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門研究", year: "2", semester: "通年" },
     { id: "KMC26-003", name: "情報通信工学セミナーⅠ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門研究", year: "1,2", semester: "年次継続", notes: "3年制社会人コースは2・3年次の配当、研究指導教員が担当する" },
     { id: "KMC26-004", name: "情報通信工学セミナーⅡ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門研究", year: "1,2", semester: "年次継続" },
-    { id: "KMC26-005", name: "情報通信工学特別研究Ⅰ", credits: 1, category: "専門教育科目", classification: "必修", subcategory1: "専門研究", year: "1", semester: "通年", notes: "2年次配当、3年制社会人コースは3年次配当" },
+    { id: "KMC26-005", name: "情報通信工学特別研究Ⅰ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門研究", year: "1", semester: "通年", notes: "2年次配当、3年制社会人コースは3年次配当" },
     { id: "KMC26-006", name: "情報通信工学特別研究Ⅱ", credits: 4, category: "専門教育科目", classification: "必修", subcategory1: "専門研究", year: "2", semester: "通年", notes: "3年制社会人コースは3年次配当" },
 
     // ========================================
