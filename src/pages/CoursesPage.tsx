@@ -131,7 +131,7 @@ const isSubjectCurrentYear = (s: SubjectDefinition, sk: SemesterKey): boolean =>
     s.year === `${yearStr}年` ||
     s.year.split(",").some((y) => y.trim().replace("年", "") === yearStr);
   const semMatch =
-    s.semester === "前期／後期" || s.semester === "通年" || s.semester === sk.semester;
+    s.semester === "前期／後期" || s.semester === "通年" || s.semester === "年次継続" || s.semester === sk.semester;
   return yearMatch && semMatch;
 };
 
@@ -142,34 +142,24 @@ const isSubjectFromPastYear = (s: SubjectDefinition, sk: SemesterKey): boolean =
   if (minYear >= sk.year) return false;
   if (isSubjectCurrentYear(s, sk)) return false;
   const semMatch =
-    s.semester === "前期／後期" || s.semester === "通年" || s.semester === sk.semester;
+    s.semester === "前期／後期" || s.semester === "通年" || s.semester === "年次継続" || s.semester === sk.semester;
   return semMatch;
 };
 
 /**
  * 通年・年次継続科目が展開されるべき学期のリストを返す。
  *
- * 判定ルール:
- * - semester="通年" かつ year="1,2" → 年次継続（1年前期〜2年後期の全4学期）
- * - semester="通年" かつ year="1"等 → 通年（同一年の前期+後期）
- * - semester="前期"/"後期" かつ year="1,2" → 複数年で履修可能なだけ（展開しない）
- * - それ以外 → 通常の半期科目（展開しない）
+ * - semester="年次継続" → originKeyの年から最大配当年まで全学期に展開
+ * - semester="通年" → 同一年の前期+後期に展開
+ * - それ以外 → 展開しない（1学期のみ）
  */
 const getSpreadSemesters = (
   subject: SubjectDefinition,
   originKey: SemesterKey,
   allSemesters: SemesterKey[]
 ): SemesterKey[] => {
-  if (subject.semester !== "通年") {
-    // 半期科目はyearにカンマがあっても展開しない
-    return [originKey];
-  }
-
-  // 通年科目
-  const allocYears = subject.year.split(",").map((y) => Number(y.trim().replace("年", "")));
-
-  if (allocYears.length > 1) {
-    // 年次継続（通年 + 複数年配当）: originKeyの年から最大配当年まで全学期
+  if (subject.semester === "年次継続") {
+    const allocYears = subject.year.split(",").map((y) => Number(y.trim().replace("年", "")));
     const maxYear = Math.max(...allocYears);
     const spreadKeys = allSemesters.filter(
       (sk) => sk.year >= originKey.year && sk.year <= maxYear && sk.year > 0
@@ -177,9 +167,12 @@ const getSpreadSemesters = (
     return spreadKeys.length > 0 ? spreadKeys : [originKey];
   }
 
-  // 通年（単一年配当）: 同じ年の前期+後期
-  const yearKeys = allSemesters.filter((sk) => sk.year === originKey.year);
-  return yearKeys.length > 0 ? yearKeys : [originKey];
+  if (subject.semester === "通年") {
+    const yearKeys = allSemesters.filter((sk) => sk.year === originKey.year);
+    return yearKeys.length > 0 ? yearKeys : [originKey];
+  }
+
+  return [originKey];
 };
 
 /** 配当科目をカテゴリごとにグループ化 */
@@ -281,7 +274,7 @@ const SemesterTab = ({
   const updateGrade = (index: number, grade: Grade) => {
     const course = courses[index];
     const subject = dept.subjects.find((s) => s.id === course.subjectId);
-    if (subject && subject.semester === "通年") {
+    if (subject && (subject.semester === "通年" || subject.semester === "年次継続")) {
       // 通年・年次継続: 全学期の同じ科目に成績を一括反映
       const updates = data.semesters
         .filter((sem) => sem.courses.some((c) => c.subjectId === course.subjectId))
@@ -300,7 +293,7 @@ const SemesterTab = ({
   const removeCourse = (index: number) => {
     const course = courses[index];
     const subject = dept.subjects.find((s) => s.id === course.subjectId);
-    if (subject && subject.semester === "通年") {
+    if (subject && (subject.semester === "通年" || subject.semester === "年次継続")) {
       // 通年・年次継続: 全学期から一括削除
       const updates = data.semesters
         .filter((sem) => sem.courses.some((c) => c.subjectId === course.subjectId))

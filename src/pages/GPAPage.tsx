@@ -211,6 +211,7 @@ const PromotionCard = ({ result }: { result: PromotionCheckResult }) => (
             <TableHead>要件</TableHead>
             <TableHead className="text-right">必要</TableHead>
             <TableHead className="text-right">修得済</TableHead>
+            <TableHead className="text-right">履修中</TableHead>
             <TableHead className="text-right">不足</TableHead>
             <TableHead className="text-center w-16">判定</TableHead>
           </TableRow>
@@ -221,6 +222,13 @@ const PromotionCard = ({ result }: { result: PromotionCheckResult }) => (
               <TableCell className="font-medium">{item.label}</TableCell>
               <TableCell className="text-right">{item.required}{item.unit}</TableCell>
               <TableCell className="text-right font-semibold">{item.earned}{item.unit}</TableCell>
+              <TableCell className="text-right">
+                {item.inProgress > 0 ? (
+                  <span className="text-blue-600">{item.inProgress}{item.unit}</span>
+                ) : (
+                  <span className="text-muted-foreground">0</span>
+                )}
+              </TableCell>
               <TableCell className="text-right">
                 {item.shortage > 0 ? (
                   <span className="text-red-600 font-semibold">{item.shortage}{item.unit}</span>
