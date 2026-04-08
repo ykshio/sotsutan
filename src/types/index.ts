@@ -41,6 +41,14 @@ export interface SubjectDefinition {
   semester: AllocationSemester;
   teachingCode?: string; // 教職コード
   teachingRequired?: boolean; // 教職必須科目
+  /** JABEE学習・教育目標 (例: "C1","D1","E1","F") */
+  jabeeCategory?: string;
+  /** JABEE分野別推奨: "required"=必修/強く推奨, "recommended"=推奨, "jabee-required"=専修プログラム必修 */
+  jabeeFields?: {
+    power?: "required" | "recommended" | "jabee-required";
+    system?: "required" | "recommended" | "jabee-required";
+    device?: "required" | "recommended" | "jabee-required";
+  };
   notes?: string; // 備考
 }
 

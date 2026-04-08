@@ -14,107 +14,107 @@ export const ej23: DepartmentDefinition = {
     // 工学基礎科目
     // ========================================
     // 数学
-    { id: "EJ23-001", name: "微分積分学および演習Ⅰ", credits: 4, category: "工学基礎科目", classification: "必修", subcategory1: "数学", year: "1", semester: "前期／後期" },
-    { id: "EJ23-002", name: "線形代数学Ⅰ", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "数学", year: "1", semester: "前期／後期" },
-    { id: "EJ23-003", name: "微分積分学および演習Ⅱ", credits: 4, category: "工学基礎科目", classification: "選択", subcategory1: "数学", year: "1", semester: "後期" },
-    { id: "EJ23-004", name: "線形代数学Ⅱ", credits: 2, category: "工学基礎科目", classification: "選択", subcategory1: "数学", year: "1", semester: "後期" },
-    { id: "EJ23-005", name: "ベクトル解析", credits: 2, category: "工学基礎科目", classification: "選択", subcategory1: "数学", year: "2", semester: "前期" },
-    { id: "EJ23-006", name: "微分方程式Ⅰ", credits: 2, category: "工学基礎科目", classification: "選択", subcategory1: "数学", year: "2", semester: "前期" },
-    { id: "EJ23-007", name: "数値解析学", credits: 2, category: "工学基礎科目", classification: "選択", subcategory1: "数学", year: "2", semester: "前期" },
-    { id: "EJ23-008", name: "フーリエ解析", credits: 2, category: "工学基礎科目", classification: "選択", subcategory1: "数学", year: "2", semester: "後期" },
-    { id: "EJ23-009", name: "複素解析学Ⅰ", credits: 2, category: "工学基礎科目", classification: "選択", subcategory1: "数学", year: "3", semester: "前期" },
+    { id: "EJ23-001", name: "微分積分学および演習Ⅰ", credits: 4, category: "工学基礎科目", classification: "必修", subcategory1: "数学", year: "1", semester: "前期／後期", jabeeCategory: "C", jabeeFields: { power: "required", system: "required", device: "required" } },
+    { id: "EJ23-002", name: "線形代数学Ⅰ", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "数学", year: "1", semester: "前期／後期", jabeeCategory: "C", jabeeFields: { power: "required", system: "required", device: "required" } },
+    { id: "EJ23-003", name: "微分積分学および演習Ⅱ", credits: 4, category: "工学基礎科目", classification: "選択", subcategory1: "数学", year: "1", semester: "後期", jabeeCategory: "C", jabeeFields: { power: "recommended", system: "recommended", device: "recommended" } },
+    { id: "EJ23-004", name: "線形代数学Ⅱ", credits: 2, category: "工学基礎科目", classification: "選択", subcategory1: "数学", year: "1", semester: "後期", jabeeCategory: "C", jabeeFields: { power: "recommended", system: "recommended", device: "recommended" } },
+    { id: "EJ23-005", name: "ベクトル解析", credits: 2, category: "工学基礎科目", classification: "選択", subcategory1: "数学", year: "2", semester: "前期", jabeeCategory: "C" },
+    { id: "EJ23-006", name: "微分方程式Ⅰ", credits: 2, category: "工学基礎科目", classification: "選択", subcategory1: "数学", year: "2", semester: "前期", jabeeCategory: "C" },
+    { id: "EJ23-007", name: "数値解析学", credits: 2, category: "工学基礎科目", classification: "選択", subcategory1: "数学", year: "2", semester: "前期", jabeeCategory: "C" },
+    { id: "EJ23-008", name: "フーリエ解析", credits: 2, category: "工学基礎科目", classification: "選択", subcategory1: "数学", year: "2", semester: "後期", jabeeCategory: "C" },
+    { id: "EJ23-009", name: "複素解析学Ⅰ", credits: 2, category: "工学基礎科目", classification: "選択", subcategory1: "数学", year: "3", semester: "前期", jabeeCategory: "C" },
 
     // 自然科学技術
-    { id: "EJ23-010", name: "基礎物理学", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学技術", year: "1", semester: "前期" },
-    { id: "EJ23-011", name: "物理基礎および物理実験", credits: 1, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学技術", year: "1", semester: "前期／後期" },
-    { id: "EJ23-012", name: "化学基礎および化学実験", credits: 1, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学技術", year: "1", semester: "前期／後期" },
-    { id: "EJ23-013", name: "物理学概論および演習A", credits: 2, category: "工学基礎科目", classification: "択一必修", subcategory1: "自然科学技術", year: "1", semester: "後期", notes: "物理学概論A〜C、科学技術概論A〜Dから1科目修得（択一必修）" },
-    { id: "EJ23-014", name: "物理学概論および演習B", credits: 2, category: "工学基礎科目", classification: "択一必修", subcategory1: "自然科学技術", year: "1", semester: "後期", notes: "択一必修" },
-    { id: "EJ23-015", name: "物理学概論および演習C", credits: 2, category: "工学基礎科目", classification: "択一必修", subcategory1: "自然科学技術", year: "1", semester: "後期", notes: "択一必修" },
-    { id: "EJ23-016", name: "科学技術概論A", credits: 2, category: "工学基礎科目", classification: "択一必修", subcategory1: "自然科学技術", year: "1", semester: "前期／後期", notes: "択一必修" },
-    { id: "EJ23-017", name: "科学技術概論B", credits: 2, category: "工学基礎科目", classification: "択一必修", subcategory1: "自然科学技術", year: "1", semester: "前期／後期", notes: "択一必修" },
-    { id: "EJ23-018", name: "科学技術概論C", credits: 2, category: "工学基礎科目", classification: "択一必修", subcategory1: "自然科学技術", year: "1", semester: "前期／後期", notes: "択一必修" },
-    { id: "EJ23-019", name: "科学技術概論D", credits: 2, category: "工学基礎科目", classification: "択一必修", subcategory1: "自然科学技術", year: "1", semester: "前期／後期", notes: "択一必修" },
+    { id: "EJ23-010", name: "基礎物理学", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学技術", year: "1", semester: "前期", jabeeCategory: "C", jabeeFields: { power: "required", system: "required", device: "required" } },
+    { id: "EJ23-011", name: "物理基礎および物理実験", credits: 1, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学技術", year: "1", semester: "前期／後期", jabeeCategory: "C", jabeeFields: { power: "required", system: "required", device: "required" } },
+    { id: "EJ23-012", name: "化学基礎および化学実験", credits: 1, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学技術", year: "1", semester: "前期／後期", jabeeCategory: "C", jabeeFields: { power: "required", system: "required", device: "required" } },
+    { id: "EJ23-013", name: "物理学概論および演習A", credits: 2, category: "工学基礎科目", classification: "択一必修", subcategory1: "自然科学技術", year: "1", semester: "後期", notes: "物理学概論A〜C、科学技術概論A〜Dから1科目修得（択一必修）", jabeeCategory: "C", jabeeFields: { power: "recommended", system: "recommended", device: "recommended" } },
+    { id: "EJ23-014", name: "物理学概論および演習B", credits: 2, category: "工学基礎科目", classification: "択一必修", subcategory1: "自然科学技術", year: "1", semester: "後期", notes: "択一必修", jabeeCategory: "C", jabeeFields: { power: "required", system: "recommended", device: "required" } },
+    { id: "EJ23-015", name: "物理学概論および演習C", credits: 2, category: "工学基礎科目", classification: "択一必修", subcategory1: "自然科学技術", year: "1", semester: "後期", notes: "択一必修", jabeeCategory: "C", jabeeFields: { power: "recommended", system: "recommended", device: "recommended" } },
+    { id: "EJ23-016", name: "科学技術概論A", credits: 2, category: "工学基礎科目", classification: "択一必修", subcategory1: "自然科学技術", year: "1", semester: "前期／後期", notes: "択一必修", jabeeCategory: "C", jabeeFields: { power: "recommended", system: "recommended", device: "recommended" } },
+    { id: "EJ23-017", name: "科学技術概論B", credits: 2, category: "工学基礎科目", classification: "択一必修", subcategory1: "自然科学技術", year: "1", semester: "前期／後期", notes: "択一必修", jabeeCategory: "C", jabeeFields: { power: "recommended", system: "recommended", device: "recommended" } },
+    { id: "EJ23-018", name: "科学技術概論C", credits: 2, category: "工学基礎科目", classification: "択一必修", subcategory1: "自然科学技術", year: "1", semester: "前期／後期", notes: "択一必修", jabeeCategory: "C", jabeeFields: { power: "recommended", system: "recommended", device: "recommended" } },
+    { id: "EJ23-019", name: "科学技術概論D", credits: 2, category: "工学基礎科目", classification: "択一必修", subcategory1: "自然科学技術", year: "1", semester: "前期／後期", notes: "択一必修", jabeeCategory: "C", jabeeFields: { power: "recommended", system: "recommended", device: "recommended" } },
 
     // 情報
-    { id: "EJ23-020", name: "情報リテラシー（数理・データサイエンス入門）", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "情報", year: "1", semester: "前期" },
-    { id: "EJ23-021", name: "コンピュータプログラミングⅠ", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "情報", year: "1", semester: "後期" },
-    { id: "EJ23-022", name: "コンピュータプログラミングⅡ", credits: 2, category: "工学基礎科目", classification: "選択", subcategory1: "情報", year: "2", semester: "前期" },
+    { id: "EJ23-020", name: "情報リテラシー（数理・データサイエンス入門）", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "情報", year: "1", semester: "前期", jabeeCategory: "C", jabeeFields: { power: "required", system: "required", device: "required" } },
+    { id: "EJ23-021", name: "コンピュータプログラミングⅠ", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "情報", year: "1", semester: "後期", jabeeCategory: "C", jabeeFields: { power: "required", system: "required", device: "required" } },
+    { id: "EJ23-022", name: "コンピュータプログラミングⅡ", credits: 2, category: "工学基礎科目", classification: "選択", subcategory1: "情報", year: "2", semester: "前期", jabeeCategory: "C", jabeeFields: { power: "recommended", system: "required", device: "recommended" } },
 
     // ワークショップ
-    { id: "EJ23-023", name: "ワークショップ", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "ワークショップ", year: "1", semester: "前期" },
+    { id: "EJ23-023", name: "ワークショップ", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "ワークショップ", year: "1", semester: "前期", jabeeCategory: "E1", jabeeFields: { power: "required", system: "required", device: "required" } },
 
     // ========================================
     // 専門教育科目 - D1: 専門科目
     // ========================================
     // 電気回路系
-    { id: "EJ23-024", name: "回路基礎", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "電気回路系", year: "1", semester: "後期" },
-    { id: "EJ23-025", name: "回路理論および演習Ⅰ", credits: 4, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "電気回路系", year: "1", semester: "後期" },
-    { id: "EJ23-026", name: "電磁気学および演習Ⅰ", credits: 4, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "電気回路系", year: "2", semester: "前期" },
-    { id: "EJ23-027", name: "回路理論および演習Ⅱ", credits: 4, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "電気回路系", year: "2", semester: "前期" },
-    { id: "EJ23-028", name: "電気数学", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "電気回路系", year: "2", semester: "後期" },
+    { id: "EJ23-024", name: "回路基礎", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "電気回路系", year: "1", semester: "後期", jabeeCategory: "D1", jabeeFields: { power: "required", system: "required", device: "required" } },
+    { id: "EJ23-025", name: "回路理論および演習Ⅰ", credits: 4, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "電気回路系", year: "1", semester: "後期", jabeeCategory: "D1", jabeeFields: { power: "required", system: "required", device: "required" } },
+    { id: "EJ23-026", name: "電磁気学および演習Ⅰ", credits: 4, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "電気回路系", year: "2", semester: "前期", jabeeCategory: "D1", jabeeFields: { power: "required", system: "required", device: "required" } },
+    { id: "EJ23-027", name: "回路理論および演習Ⅱ", credits: 4, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "電気回路系", year: "2", semester: "前期", jabeeCategory: "D1", jabeeFields: { power: "required", system: "required", device: "required" } },
+    { id: "EJ23-028", name: "電気数学", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "電気回路系", year: "2", semester: "後期", jabeeCategory: "D1", jabeeFields: { power: "required", system: "required", device: "required" } },
 
     // 電磁気学系
-    { id: "EJ23-029", name: "電磁気学および演習Ⅱ", credits: 4, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "電磁気学系", year: "2", semester: "後期" },
+    { id: "EJ23-029", name: "電磁気学および演習Ⅱ", credits: 4, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "電磁気学系", year: "2", semester: "後期", jabeeCategory: "D1", jabeeFields: { power: "required", system: "required", device: "required" } },
 
     // 専門科目（subcategory2なし）
-    { id: "EJ23-030", name: "電気電子計測", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "2", semester: "前期" },
+    { id: "EJ23-030", name: "電気電子計測", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "2", semester: "前期", jabeeCategory: "D1", jabeeFields: { power: "recommended", system: "recommended", device: "recommended" } },
 
     // 電子回路系
-    { id: "EJ23-031", name: "電子回路Ⅰ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "電子回路系", year: "2", semester: "後期" },
+    { id: "EJ23-031", name: "電子回路Ⅰ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "電子回路系", year: "2", semester: "後期", jabeeCategory: "D1", jabeeFields: { power: "required", system: "required", device: "required" } },
 
     // 専門科目（subcategory2なし）
-    { id: "EJ23-032", name: "ディジタル回路", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "2", semester: "後期" },
-    { id: "EJ23-033", name: "電子回路Ⅱ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "前期" },
-    { id: "EJ23-034", name: "ディジタル信号処理", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "前期" },
+    { id: "EJ23-032", name: "ディジタル回路", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "2", semester: "後期", jabeeCategory: "D1", jabeeFields: { power: "recommended", system: "required", device: "required" } },
+    { id: "EJ23-033", name: "電子回路Ⅱ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "前期", jabeeCategory: "D1" },
+    { id: "EJ23-034", name: "ディジタル信号処理", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "前期", jabeeCategory: "D1" },
 
     // 振動制御系
-    { id: "EJ23-035", name: "制御工学Ⅰ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "振動制御系", year: "3", semester: "前期" },
+    { id: "EJ23-035", name: "制御工学Ⅰ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "振動制御系", year: "3", semester: "前期", jabeeCategory: "D1", jabeeFields: { power: "required", system: "required", device: "recommended" } },
 
     // 専門科目（subcategory2なし）
-    { id: "EJ23-036", name: "ディジタルシステム", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "前期" },
-    { id: "EJ23-037", name: "物性基礎", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "2", semester: "後期" },
-    { id: "EJ23-038", name: "電気電子材料", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "後期" },
-    { id: "EJ23-039", name: "電気機器", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "前期" },
-    { id: "EJ23-040", name: "システム工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "前期" },
-    { id: "EJ23-041", name: "制御工学Ⅱ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "後期" },
-    { id: "EJ23-042", name: "高電圧工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "後期" },
-    { id: "EJ23-043", name: "半導体デバイス工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "前期" },
-    { id: "EJ23-044", name: "パワーエレクトロニクス", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "後期" },
-    { id: "EJ23-045", name: "送配電工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "後期" },
-    { id: "EJ23-046", name: "高周波回路", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "後期" },
-    { id: "EJ23-047", name: "発電工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "後期" },
-    { id: "EJ23-048", name: "電気電子工学キャリアデザイン", credits: 1, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "前期" },
-    { id: "EJ23-049", name: "電気法規", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3,4", semester: "後期" },
-    { id: "EJ23-050", name: "電力系統工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "4", semester: "前期" },
-    { id: "EJ23-051", name: "電機設計および電気製図", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "4", semester: "後期" },
-    { id: "EJ23-052", name: "インターンシップ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3,4", semester: "前期／後期", notes: "随時" },
+    { id: "EJ23-036", name: "ディジタルシステム", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "前期", jabeeCategory: "D1" },
+    { id: "EJ23-037", name: "物性基礎", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "2", semester: "後期", jabeeCategory: "D1", jabeeFields: { power: "recommended", system: "recommended", device: "required" } },
+    { id: "EJ23-038", name: "電気電子材料", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "後期", jabeeCategory: "D1" },
+    { id: "EJ23-039", name: "電気機器", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "前期", jabeeCategory: "D1", jabeeFields: { power: "required", system: "recommended", device: "recommended" } },
+    { id: "EJ23-040", name: "システム工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "前期", jabeeCategory: "D1" },
+    { id: "EJ23-041", name: "制御工学Ⅱ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "後期", jabeeCategory: "D1", jabeeFields: { power: "recommended", system: "required", device: "recommended" } },
+    { id: "EJ23-042", name: "高電圧工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "後期", jabeeCategory: "D1" },
+    { id: "EJ23-043", name: "半導体デバイス工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "前期", jabeeCategory: "D1", jabeeFields: { power: "recommended", system: "recommended", device: "required" } },
+    { id: "EJ23-044", name: "パワーエレクトロニクス", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "後期", jabeeCategory: "D1" },
+    { id: "EJ23-045", name: "送配電工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "後期", jabeeCategory: "D1" },
+    { id: "EJ23-046", name: "高周波回路", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "後期", jabeeCategory: "D1" },
+    { id: "EJ23-047", name: "発電工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "後期", jabeeCategory: "D1" },
+    { id: "EJ23-048", name: "電気電子工学キャリアデザイン", credits: 1, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3", semester: "前期", jabeeCategory: "D1", jabeeFields: { power: "required", system: "required", device: "required" } },
+    { id: "EJ23-049", name: "電気法規", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3,4", semester: "後期", jabeeCategory: "D1" },
+    { id: "EJ23-050", name: "電力系統工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "4", semester: "前期", jabeeCategory: "D1" },
+    { id: "EJ23-051", name: "電機設計および電気製図", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "4", semester: "後期", jabeeCategory: "D1" },
+    { id: "EJ23-052", name: "インターンシップ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", year: "3,4", semester: "前期／後期", notes: "随時", jabeeCategory: "D1" },
 
     // ========================================
     // 専門教育科目 - D2: 実験科目
     // ========================================
-    { id: "EJ23-053", name: "電気電子工学基礎実験Ⅰ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "実験科目", year: "2", semester: "前期" },
-    { id: "EJ23-054", name: "電気電子工学基礎実験Ⅱ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "実験科目", year: "2", semester: "後期" },
-    { id: "EJ23-055", name: "電気電子工学総合実験Ⅰ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "実験科目", year: "3", semester: "前期" },
-    { id: "EJ23-056", name: "電気電子工学総合実験Ⅱ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "実験科目", year: "3", semester: "後期" },
+    { id: "EJ23-053", name: "電気電子工学基礎実験Ⅰ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "実験科目", year: "2", semester: "前期", jabeeCategory: "D2", jabeeFields: { power: "required", system: "required", device: "required" } },
+    { id: "EJ23-054", name: "電気電子工学基礎実験Ⅱ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "実験科目", year: "2", semester: "後期", jabeeCategory: "D2", jabeeFields: { power: "required", system: "required", device: "required" } },
+    { id: "EJ23-055", name: "電気電子工学総合実験Ⅰ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "実験科目", year: "3", semester: "前期", jabeeCategory: "D2", jabeeFields: { power: "required", system: "required", device: "required" } },
+    { id: "EJ23-056", name: "電気電子工学総合実験Ⅱ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "実験科目", year: "3", semester: "後期", jabeeCategory: "D2", jabeeFields: { power: "required", system: "required", device: "required" } },
 
     // ========================================
     // 専門教育科目 - E1: デザイン科目
     // ========================================
-    { id: "EJ23-057", name: "エンジニアリング・デザイン概論", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "デザイン科目", year: "3", semester: "前期" },
+    { id: "EJ23-057", name: "エンジニアリング・デザイン概論", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "デザイン科目", year: "3", semester: "前期", jabeeCategory: "E1", jabeeFields: { power: "required", system: "required", device: "required" } },
 
     // ========================================
     // 専門教育科目 - E2: 研究科目
     // ========================================
-    { id: "EJ23-058", name: "卒業研究", credits: 6, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "研究科目", year: "4", semester: "通年" },
-    { id: "EJ23-059", name: "電気電子工学総合ゼミ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "研究科目", year: "3", semester: "後期", notes: "アセスメント科目" },
+    { id: "EJ23-058", name: "卒業研究", credits: 6, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "研究科目", year: "4", semester: "通年", jabeeCategory: "E2", jabeeFields: { power: "required", system: "required", device: "required" } },
+    { id: "EJ23-059", name: "電気電子工学総合ゼミ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "研究科目", year: "3", semester: "後期", notes: "アセスメント科目", jabeeCategory: "E2", jabeeFields: { power: "required", system: "required", device: "required" } },
 
     // ========================================
     // 専門教育科目 - コミュニケーション科目
     // ========================================
-    { id: "EJ23-060", name: "技術英語", credits: 1, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "コミュニケーション科目", year: "3", semester: "前期" },
-    { id: "EJ23-061", name: "Academic Presentation", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "コミュニケーション科目", year: "4", semester: "前期" },
-    { id: "EJ23-062", name: "電気電子工学リテラシー", credits: 1, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", subcategory2: "コミュニケーション科目", year: "1", semester: "後期", notes: "JABEE必修(★)" },
+    { id: "EJ23-060", name: "技術英語", credits: 1, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "コミュニケーション科目", year: "3", semester: "前期", jabeeCategory: "F", jabeeFields: { power: "required", system: "required", device: "required" } },
+    { id: "EJ23-061", name: "Academic Presentation", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "専門科目", subcategory2: "コミュニケーション科目", year: "4", semester: "前期", jabeeCategory: "F", jabeeFields: { power: "required", system: "required", device: "required" } },
+    { id: "EJ23-062", name: "電気電子工学リテラシー", credits: 1, category: "専門教育科目", classification: "選択", subcategory1: "専門科目", subcategory2: "コミュニケーション科目", year: "1", semester: "後期", notes: "JABEE必修(★)", jabeeCategory: "F", jabeeFields: { power: "jabee-required", system: "jabee-required", device: "jabee-required" } },
 
     // ========================================
     // 共通教育科目 - 英語科目
@@ -167,7 +167,7 @@ export const ej23: DepartmentDefinition = {
 
     // 技術者教養
     { id: "EJ23-101", name: "技術者教養ワークショップ", credits: 2, category: "共通教育科目", classification: "選択", subcategory1: "人間科学科目", subcategory2: "技術者教養", year: "2,3,4", semester: "前期／後期" },
-    { id: "EJ23-102", name: "技術者倫理", credits: 2, category: "共通教育科目", classification: "選択", subcategory1: "人間科学科目", subcategory2: "技術者教養", year: "2,3,4", semester: "前期／後期" },
+    { id: "EJ23-102", name: "技術者倫理", credits: 2, category: "共通教育科目", classification: "選択", subcategory1: "人間科学科目", subcategory2: "技術者教養", year: "2,3,4", semester: "前期／後期", jabeeCategory: "B", jabeeFields: { power: "jabee-required", system: "jabee-required", device: "jabee-required" } },
     { id: "EJ23-103", name: "科学技術の失敗から学ぶ", credits: 2, category: "共通教育科目", classification: "選択", subcategory1: "人間科学科目", subcategory2: "技術者教養", year: "2,3,4", semester: "前期／後期" },
     { id: "EJ23-104", name: "先端技術と社会問題", credits: 2, category: "共通教育科目", classification: "選択", subcategory1: "人間科学科目", subcategory2: "技術者教養", year: "2,3,4", semester: "前期／後期" },
     { id: "EJ23-105", name: "製造物責任法", credits: 2, category: "共通教育科目", classification: "選択", subcategory1: "人間科学科目", subcategory2: "技術者教養", year: "2,3,4", semester: "前期／後期" },
