@@ -56,8 +56,8 @@ export const GPAPage = ({ data }: Props) => {
       <h2 className="text-2xl font-bold tracking-tight">GPA・進級/卒業判定</h2>
 
       {/* 累計サマリー */}
-      <div className="grid gap-4 sm:grid-cols-4">
-        <Card className="sm:col-span-1 border-2">
+      <div className="grid gap-4 sm:grid-cols-5">
+        <Card className="border-2">
           <CardContent className="pt-6 text-center">
             <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">累計GPA</p>
             <p className={`text-4xl font-bold mt-2 ${gpaColor(cumulativeGPA.gpa)}`}>
@@ -69,6 +69,14 @@ export const GPAPage = ({ data }: Props) => {
           <CardContent className="pt-6 text-center">
             <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">修得単位</p>
             <p className="text-3xl font-bold mt-2">{cumulativeGPA.earnedCredits}</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-6 text-center">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">履修中</p>
+            <p className="text-3xl font-bold mt-2 text-muted-foreground">
+              {allCourses.filter((c) => c.grade === "").reduce((sum, c) => sum + c.credits, 0)}
+            </p>
           </CardContent>
         </Card>
         <Card>
