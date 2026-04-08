@@ -88,6 +88,28 @@ export const calculateSemesterGPAs = (
   return results;
 };
 
+/**
+ * 同一subjectIdの科目を1レコードに統合する（通年・年次継続の重複排除）
+ * creditsは合算、gradeは成績がある方を優先
+ */
+export const deduplicateCourses = (courses: CourseRecord[]): CourseRecord[] => {
+  const map = new Map<string, CourseRecord>();
+  for (const c of courses) {
+    const existing = map.get(c.subjectId);
+    if (existing) {
+      map.set(c.subjectId, {
+        ...existing,
+        credits: existing.credits + c.credits,
+        // 成績は空でない方を優先
+        grade: existing.grade || c.grade,
+      });
+    } else {
+      map.set(c.subjectId, { ...c });
+    }
+  }
+  return Array.from(map.values());
+};
+
 /** フィルタに合致するかチェック */
 const matchesFilter = (c: CourseRecord, filter: RequirementFilter): boolean => {
   if (filter.category && c.category !== filter.category) return false;
@@ -181,8 +203,10 @@ export const checkPromotion = (
   requirement: PromotionRequirement,
   allCourses: CourseRecord[]
 ): PromotionCheckResult => {
+  // 通年・年次継続で分割されたレコードを統合してから判定
+  const deduplicated = deduplicateCourses(allCourses);
   const items = requirement.items.map((item) =>
-    checkRequirementItem(item, allCourses)
+    checkRequirementItem(item, deduplicated)
   );
 
   return {

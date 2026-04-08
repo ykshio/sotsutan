@@ -2,6 +2,7 @@ import type { UserData } from "@/types";
 import { getDepartment } from "@/data/departments";
 import { calculateGPA, calculateSemesterGPAs, checkPromotion } from "@/utils/gpa";
 import type { PromotionCheckResult } from "@/utils/gpa";
+import { deduplicateCourses } from "@/utils/gpa";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -75,7 +76,7 @@ export const GPAPage = ({ data }: Props) => {
           <CardContent className="pt-6 text-center">
             <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">履修中</p>
             <p className="text-3xl font-bold mt-2 text-muted-foreground">
-              {allCourses.filter((c) => c.grade === "").reduce((sum, c) => sum + c.credits, 0)}
+              {deduplicateCourses(allCourses).filter((c) => c.grade === "").reduce((sum, c) => sum + c.credits, 0)}
             </p>
           </CardContent>
         </Card>
