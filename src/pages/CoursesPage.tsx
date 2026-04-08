@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Plus, Trash2, AlertTriangle, ChevronDown, ChevronUp, Check } from "lucide-react";
+import { Plus, Trash2, AlertTriangle, ChevronDown, ChevronUp, Check, ArrowUp, ArrowDown, ArrowUpDown } from "lucide-react";
 
 const UNDERGRAD_SEMESTERS: SemesterKey[] = [
   { year: 1, semester: "前期" }, { year: 1, semester: "後期" },
@@ -307,6 +307,28 @@ const SemesterTab = ({
     }
   };
 
+  const moveCourse = (index: number, direction: -1 | 1) => {
+    const newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= courses.length) return;
+    const newCourses = [...courses];
+    [newCourses[index], newCourses[newIndex]] = [newCourses[newIndex], newCourses[index]];
+    onSetCourses(semesterKey, newCourses);
+  };
+
+  const sortCourses = (key: "name" | "credits" | "classification") => {
+    const classOrder: Record<string, number> = { "必修": 0, "択一必修": 1, "選択": 2, "自由": 3 };
+    const sorted = [...courses].sort((a, b) => {
+      switch (key) {
+        case "name": return a.subjectName.localeCompare(b.subjectName, "ja");
+        case "credits": return b.credits - a.credits;
+        case "classification":
+          return (classOrder[a.classification] ?? 9) - (classOrder[b.classification] ?? 9);
+        default: return 0;
+      }
+    });
+    onSetCourses(semesterKey, sorted);
+  };
+
   const addCustomCourse = () => {
     if (!customName.trim()) return;
     const newCourse: CourseRecord = {
@@ -351,10 +373,24 @@ const SemesterTab = ({
         </CardHeader>
         <CardContent className="space-y-4">
           {courses.length > 0 ? (
-            <div className="overflow-x-auto">
+            <>
+              <div className="flex gap-1 mb-2">
+                <span className="text-xs text-muted-foreground self-center mr-1">ソート:</span>
+                <Button variant="ghost" size="sm" className="h-7 text-xs" onClick={() => sortCourses("classification")}>
+                  <ArrowUpDown size={12} className="mr-1" />分類
+                </Button>
+                <Button variant="ghost" size="sm" className="h-7 text-xs" onClick={() => sortCourses("name")}>
+                  <ArrowUpDown size={12} className="mr-1" />名前
+                </Button>
+                <Button variant="ghost" size="sm" className="h-7 text-xs" onClick={() => sortCourses("credits")}>
+                  <ArrowUpDown size={12} className="mr-1" />単位
+                </Button>
+              </div>
+              <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
+                    <TableHead className="w-10"></TableHead>
                     <TableHead>科目名</TableHead>
                     <TableHead className="w-16 text-center">単位</TableHead>
                     <TableHead className="w-20">分類</TableHead>
@@ -365,6 +401,24 @@ const SemesterTab = ({
                 <TableBody>
                   {courses.map((course, idx) => (
                     <TableRow key={`${course.subjectId}-${idx}`} className="group">
+                      <TableCell className="p-0">
+                        <div className="flex flex-col opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button
+                            className="p-0.5 text-muted-foreground hover:text-foreground disabled:opacity-20"
+                            onClick={() => moveCourse(idx, -1)}
+                            disabled={idx === 0}
+                          >
+                            <ArrowUp size={12} />
+                          </button>
+                          <button
+                            className="p-0.5 text-muted-foreground hover:text-foreground disabled:opacity-20"
+                            onClick={() => moveCourse(idx, 1)}
+                            disabled={idx === courses.length - 1}
+                          >
+                            <ArrowDown size={12} />
+                          </button>
+                        </div>
+                      </TableCell>
                       <TableCell className="font-medium">{course.subjectName}</TableCell>
                       <TableCell className="text-center font-mono">{course.credits}</TableCell>
                       <TableCell>
@@ -405,6 +459,7 @@ const SemesterTab = ({
                 </TableBody>
               </Table>
             </div>
+            </>
           ) : (
             <div className="text-center py-6 text-muted-foreground">
               <p>まだ科目が登録されていません</p>

@@ -111,7 +111,7 @@ export const kmc26: DepartmentDefinition = {
       label: "修了",
       targetYear: 2,
       items: [
-        { label: "必修科目", requiredCredits: 6, countMode: "subjects", filter: { classification: "必修" } },
+        { label: "必修科目", requiredCredits: 13, filter: { classification: "必修" } },
         { label: "研究者教養科目", requiredCredits: 4, filter: { subcategory1: "研究者教養科目" } },
         { label: "合計（自由科目除く）", requiredCredits: 30, filter: {} },
       ],
