@@ -154,6 +154,10 @@ import { newDept } from "./new-dept";
 export const departments: DepartmentDefinition[] = [..., newDept];
 ```
 
+### 3.5 CSV/JSONからデータファイルを生成する場合
+
+PDFの表読み取りを別ツール（Gemini CLI等）で行い、`data/csv/` にCSVを配置する。フォーマットは `docs/csv-format.md` を参照。サンプル: `data/csv/ej-23-sample.csv`。Claude CodeはこのCSVを読んでTypeScriptファイルを生成する。
+
 ### 4. ビルド・デプロイ
 
 ```bash
