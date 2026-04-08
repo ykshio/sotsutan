@@ -5,10 +5,11 @@ import { eh26 } from "./eh-26";
 import { ek26 } from "./ek-26";
 import { ef26 } from "./ef-26";
 import { es26 } from "./es-26";
+import { ej23 } from "./ej-23";
 import { kmc26 } from "./kmc-26";
 
 /** 利用可能な学科一覧 */
-export const departments: DepartmentDefinition[] = [ec26, eh26, ek26, ef26, es26, kmc26, ec22];
+export const departments: DepartmentDefinition[] = [ec26, eh26, ek26, ef26, es26, kmc26, ej23, ec22];
 
 export const getDepartment = (id: string): DepartmentDefinition | undefined =>
   departments.find((d) => d.id === id);
