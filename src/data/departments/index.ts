@@ -1,4 +1,12 @@
 import type { DepartmentDefinition } from "@/types";
+import { ad23 } from "./ad-23";
+import { ad24 } from "./ad-24";
+import { ad25 } from "./ad-25";
+import { ad26 } from "./ad-26";
+import { aj23 } from "./aj-23";
+import { aj24 } from "./aj-24";
+import { aj25 } from "./aj-25";
+import { aj26 } from "./aj-26";
 import { ec22 } from "./ec-22";
 import { ec23 } from "./ec-23";
 import { ec24 } from "./ec-24";
@@ -28,10 +36,31 @@ import { es23 } from "./es-23";
 import { es24 } from "./es-24";
 import { es25 } from "./es-25";
 import { es26 } from "./es-26";
+import { fa23 } from "./fa-23";
+import { fa24 } from "./fa-24";
+import { fa25 } from "./fa-25";
+import { fa26 } from "./fa-26";
+import { fi23 } from "./fi-23";
+import { fi24 } from "./fi-24";
+import { fi25 } from "./fi-25";
+import { fi26 } from "./fi-26";
+import { fr23 } from "./fr-23";
+import { fr24 } from "./fr-24";
+import { fr25 } from "./fr-25";
+import { fr26 } from "./fr-26";
 import { kmc26 } from "./kmc-26";
+import { nc24 } from "./nc-24";
+import { nc25 } from "./nc-25";
+import { nc26 } from "./nc-26";
+import { ne24 } from "./ne-24";
+import { ne25 } from "./ne-25";
+import { ne26 } from "./ne-26";
+import { nm24 } from "./nm-24";
+import { nm25 } from "./nm-25";
+import { nm26 } from "./nm-26";
 
 /** 利用可能な学科一覧 */
-export const departments: DepartmentDefinition[] = [ec22, ec23, ec24, ec25, ec26, ef22, ef23, ef24, ef25, ef26, eh22, eh23, eh24, eh25, eh26, ej23, ej24, ej25, ej26, ek22, ek23, ek24, ek25, ek26, es22, es23, es24, es25, es26, kmc26];
+export const departments: DepartmentDefinition[] = [ad23, ad24, ad25, ad26, aj23, aj24, aj25, aj26, ec22, ec23, ec24, ec25, ec26, ef22, ef23, ef24, ef25, ef26, eh22, eh23, eh24, eh25, eh26, ej23, ej24, ej25, ej26, ek22, ek23, ek24, ek25, ek26, es22, es23, es24, es25, es26, fa23, fa24, fa25, fa26, fi23, fi24, fi25, fi26, fr23, fr24, fr25, fr26, kmc26, nc24, nc25, nc26, ne24, ne25, ne26, nm24, nm25, nm26];
 
 export const getDepartment = (id: string): DepartmentDefinition | undefined =>
   departments.find((d) => d.id === id);

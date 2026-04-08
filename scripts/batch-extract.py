@@ -248,12 +248,27 @@ def main():
     out_dir = "data/csv"
 
     configs = [
-        # (year, pdf_file, dept_code)
+        # 工学部
         (2026, "kougaku-2026.pdf", ["EJ", "EH", "ES", "EK", "EF", "EC"]),
         (2025, "kougaku-2025.pdf", ["EJ", "EH", "ES", "EK", "EF", "EC"]),
         (2024, "kougaku-2024.pdf", ["EJ", "EH", "ES", "EK", "EF", "EC"]),
         (2023, "kougaku-2023.pdf", ["EJ", "EH", "ES", "EK", "EF", "EC"]),
         (2022, "kougaku-2022.pdf", ["EJ", "EH", "ES", "EK", "EF", "EC"]),
+        # 未来科学部
+        (2026, "mirai-2026.pdf", ["FA", "FI", "FR"]),
+        (2025, "mirai-2025.pdf", ["FA", "FI", "FR"]),
+        (2024, "mirai-2024.pdf", ["FA", "FI", "FR"]),
+        (2023, "mirai-2023.pdf", ["FA", "FI", "FR"]),
+        # システムデザイン工学部
+        (2026, "sysdesign-2026.pdf", ["AJ", "AD"]),
+        (2025, "sysdesign-2025.pdf", ["AJ", "AD"]),
+        (2024, "sysdesign-2024.pdf", ["AJ", "AD"]),
+        (2023, "sysdesign-2023.pdf", ["AJ", "AD"]),
+        # 工学部第二部
+        (2026, "nibu-2026.pdf", ["NE", "NM", "NC"]),
+        (2025, "nibu-2025.pdf", ["NE", "NM", "NC"]),
+        (2024, "nibu-2024.pdf", ["NE", "NM", "NC"]),
+        (2023, "nibu-2023.pdf", ["NE", "NM", "NC"]),
     ]
 
     total = 0

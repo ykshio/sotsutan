@@ -1,0 +1,124 @@
+import type { DepartmentDefinition } from "@/types";
+
+/**
+ * 工学部第二部 情報通信工学科（2025年度入学）
+ * 自動生成: scripts/csv-to-ts.py
+ */
+export const nc25: DepartmentDefinition = {
+  id: "nc-25",
+  departmentCode: "NC",
+  entranceYear: 2025,
+  name: "情報通信工学科",
+  faculty: "工学部第二部",
+  subjects: [
+    { id: "NC25-001", name: "東京電機大学で学ぶ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "基礎1", year: "1", semester: "前期", notes: "導入科目 1年次のみ履修可" },
+    { id: "NC25-002", name: "微分積分学および演習Ⅰ", credits: 4, category: "専門教育科目", classification: "選択", subcategory1: "基礎1", year: "1", semester: "前期" },
+    { id: "NC25-003", name: "微分積分学および演習Ⅱ", credits: 4, category: "専門教育科目", classification: "選択", subcategory1: "基礎1", year: "1", semester: "後期" },
+    { id: "NC25-004", name: "線形代数学Ⅰ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "基礎1", year: "1", semester: "前期" },
+    { id: "NC25-005", name: "線形代数学Ⅱ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "基礎1", year: "1", semester: "後期" },
+    { id: "NC25-006", name: "微分方程式Ⅰ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "基礎1", year: "2", semester: "前期" },
+    { id: "NC25-007", name: "物理学Ⅰ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "基礎1", year: "1", semester: "前期" },
+    { id: "NC25-008", name: "コンピュータリテラシィ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "基礎1", year: "1", semester: "前期", teachingCode: "160工業" },
+    { id: "NC25-009", name: "コンピュータプログラミングおよび演習Ⅰ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "基礎1", year: "1", semester: "前期", teachingCode: "基礎要件" },
+
+    { id: "NC25-010", name: "情報通信基礎", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "基礎2", year: "1", semester: "前期", teachingCode: "1330情④" },
+    { id: "NC25-011", name: "電磁気学の基礎および演習", credits: 3, category: "専門教育科目", classification: "選択", subcategory1: "基礎2", year: "2", semester: "前期", teachingCode: "160工業" },
+    { id: "NC25-012", name: "電気回路の基礎および演習", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "基礎2", year: "1", semester: "前期", teachingCode: "160工業" },
+    { id: "NC25-013", name: "エレクトロニクスの基礎", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "基礎2", year: "2", semester: "前期", teachingCode: "160工業" },
+    { id: "NC25-014", name: "コンピュータプログラミングおよび演習Ⅱ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "基礎2", year: "1", semester: "後期", teachingCode: "1310情②" },
+    { id: "NC25-015", name: "コンピュータ構成と機械語", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "基礎2", year: "2", semester: "前期", teachingCode: "160工業" },
+    { id: "NC25-016", name: "データ構造とアルゴリズム", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "基礎2", year: "2", semester: "前期", teachingCode: "1310情②" },
+    { id: "NC25-017", name: "インターネットプログラミング", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "基礎2", year: "2", semester: "後期", teachingCode: "1330情④" },
+    { id: "NC25-018", name: "基礎情報数学A（離散数学）", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "基礎2", year: "1", semester: "後期" },
+    { id: "NC25-019", name: "基礎情報数学B（確率と情報）", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "基礎2", year: "2", semester: "前期" },
+    { id: "NC25-020", name: "基礎情報数学C（代数と符号）", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "基礎2", year: "2", semester: "後期" },
+    { id: "NC25-021", name: "卒業研究A", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "基礎2", year: "4", semester: "通年", notes: "卒業研究Bと択一選択" },
+    { id: "NC25-022", name: "卒業研究B", credits: 4, category: "専門教育科目", classification: "選択", subcategory1: "基礎2", year: "4", semester: "通年", notes: "卒業研究Aと択一選択" },
+
+    { id: "NC25-023", name: "情報通信基礎実験Ⅰ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "実験", year: "2", semester: "前期", teachingCode: "160工業" },
+    { id: "NC25-024", name: "情報通信基礎実験Ⅱ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "実験", year: "2", semester: "後期", teachingCode: "160工業" },
+    { id: "NC25-025", name: "情報通信工学実験Ⅰ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "実験", year: "3", semester: "前期", teachingCode: "1310情②" },
+    { id: "NC25-026", name: "情報通信工学実験Ⅱ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "実験", year: "3", semester: "後期", teachingCode: "1310情②" },
+    { id: "NC25-027", name: "情報通信プロジェクト", credits: 4, category: "専門教育科目", classification: "必修", subcategory1: "実験", year: "4", semester: "通年", teachingCode: "1320情③" },
+
+    { id: "NC25-028", name: "回路網の基礎", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "情報通信・ネットワーキング", year: "1", semester: "後期", teachingCode: "160工業" },
+    { id: "NC25-029", name: "エレクトロニクスの応用", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "情報通信・ネットワーキング", year: "2", semester: "後期", teachingCode: "160工業" },
+    { id: "NC25-030", name: "信号システム解析", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "情報通信・ネットワーキング", year: "2", semester: "後期", teachingCode: "160工業" },
+    { id: "NC25-031", name: "ディジタル信号処理", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "情報通信・ネットワーキング", year: "3", semester: "前期", teachingCode: "160工業" },
+    { id: "NC25-032", name: "応用物理学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "情報通信・ネットワーキング", year: "3", semester: "前期", teachingCode: "160工業" },
+    { id: "NC25-033", name: "電磁気学の応用", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "情報通信・ネットワーキング", year: "2", semester: "後期", teachingCode: "160工業" },
+    { id: "NC25-034", name: "電波工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "情報通信・ネットワーキング", year: "3", semester: "前期", teachingCode: "160工業" },
+    { id: "NC25-035", name: "信号理論", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "情報通信・ネットワーキング", year: "2", semester: "前期", teachingCode: "160工業" },
+    { id: "NC25-036", name: "通信工学の基礎", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "情報通信・ネットワーキング", year: "2", semester: "後期", teachingCode: "160工業" },
+    { id: "NC25-037", name: "通信システム", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "情報通信・ネットワーキング", year: "3", semester: "前期", teachingCode: "160工業" },
+    { id: "NC25-038", name: "通信ネットワーク", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "情報通信・ネットワーキング", year: "3", semester: "後期", teachingCode: "1330情④" },
+    { id: "NC25-039", name: "情報ネットワーク", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "情報通信・ネットワーキング", year: "3", semester: "後期", teachingCode: "1330情④" },
+    { id: "NC25-040", name: "ワイヤレスシステム工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "情報通信・ネットワーキング", year: "4", semester: "前期", teachingCode: "160工業" },
+    { id: "NC25-041", name: "光ファイバ通信", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "情報通信・ネットワーキング", year: "4", semester: "前期", teachingCode: "160工業" },
+    { id: "NC25-042", name: "計測と制御", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "情報通信・ネットワーキング", year: "3", semester: "後期", teachingCode: "1310情②" },
+
+    { id: "NC25-043", name: "画像処理工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "コンマピルュチーメテディィンアグ・", year: "4", semester: "前期", teachingCode: "1340情⑤" },
+    { id: "NC25-044", name: "データベース", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "コンマピルュチーメテディィンアグ・", year: "3", semester: "前期", teachingCode: "1320情③" },
+    { id: "NC25-045", name: "ヒューマンインタフェース", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "コンマピルュチーメテディィンアグ・", year: "4", semester: "後期", teachingCode: "160工業" },
+    { id: "NC25-046", name: "論理回路および論理設計", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "コンマピルュチーメテディィンアグ・", year: "2", semester: "後期", teachingCode: "160工業" },
+    { id: "NC25-047", name: "コンピュータアーキテクチャ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "コンマピルュチーメテディィンアグ・", year: "3", semester: "前期", teachingCode: "160工業" },
+    { id: "NC25-048", name: "マルチメディア通信工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "コンマピルュチーメテディィンアグ・", year: "3", semester: "後期", teachingCode: "1340情⑤" },
+    { id: "NC25-049", name: "ネットワークセキュリティ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "コンマピルュチーメテディィンアグ・", year: "3", semester: "後期", teachingCode: "1330情④" },
+
+    { id: "NC25-050", name: "通信法規", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "その他", year: "4", semester: "後期", teachingCode: "160工業" },
+    { id: "NC25-051", name: "モバイルシステム技術Ⅰ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "その他", year: "3", semester: "前期" },
+    { id: "NC25-052", name: "モバイルシステム技術Ⅱ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "その他", year: "3", semester: "後期" },
+
+    { id: "NC25-053", name: "コンピュータ基礎および演習Ⅲ", credits: 2, category: "専門教育科目", classification: "自由", subcategory1: "教職関連科目", year: "234", semester: "前期", teachingCode: "1310情②" },
+    { id: "NC25-054", name: "情報システムの基礎および演習", credits: 2, category: "専門教育科目", classification: "自由", subcategory1: "教職関連科目", year: "234", semester: "後期", teachingCode: "1320情③" },
+    { id: "NC25-055", name: "情報通信ネットワークの基礎および演習", credits: 2, category: "専門教育科目", classification: "自由", subcategory1: "教職関連科目", year: "234", semester: "後期", teachingCode: "1330情④" },
+    { id: "NC25-056", name: "マルチメディア表現技術の基礎および演習", credits: 2, category: "専門教育科目", classification: "自由", subcategory1: "教職関連科目", year: "234", semester: "前期", teachingCode: "1340情⑤" },
+    { id: "NC25-057", name: "職業指導", credits: 2, category: "専門教育科目", classification: "自由", subcategory1: "教職関連科目", year: "3", semester: "前期", teachingCode: "161職指" },
+    { id: "NC25-058", name: "工業技術概論", credits: 2, category: "専門教育科目", classification: "自由", subcategory1: "教職関連科目", year: "3", semester: "後期", teachingCode: "160工業" },
+  ],
+  promotionRequirements: [
+    {
+      label: "2年進級",
+      targetYear: 2,
+      items: [
+        { label: "合計", requiredCredits: 24, filter: {} },
+      ],
+    },
+    {
+      label: "4年進級",
+      targetYear: 4,
+      items: [
+        { label: "人間科学科目", requiredCredits: 10, filter: { subcategory1: "人間科学科目" } },
+        { label: "英語科目", requiredCredits: 6, filter: { subcategory1: "英語科目" } },
+        { label: "必修科目", requiredCredits: 17, countMode: "subjects" as const, filter: { classification: "必修" } },
+        { label: "合計", requiredCredits: 104, filter: {} },
+      ],
+    },
+    {
+      label: "卒業",
+      targetYear: 4,
+      items: [
+        { label: "人間科学科目", requiredCredits: 16, filter: { subcategory1: "人間科学科目" } },
+        { label: "技術者教養科目", requiredCredits: 2, filter: { subcategory2: "技術者教養" } },
+        { label: "グローバル教養科目", requiredCredits: 2, filter: { subcategory2: "グローバル教養" } },
+        { label: "英語科目", requiredCredits: 8, filter: { subcategory1: "英語科目" } },
+        { label: "工学基礎科目", requiredCredits: 18, filter: { category: "工学基礎科目" } },
+        { label: "専門科目", requiredCredits: 78, filter: { subcategory1: "専門科目" } },
+        {
+          label: "任意に選択し修得した科目",
+          requiredCredits: 4,
+          countMode: "overflow" as const,
+          overflowSources: [
+            { label: "人間科学科目", requiredCredits: 16, filter: { subcategory1: "人間科学科目" } },
+            { label: "英語科目", requiredCredits: 8, filter: { subcategory1: "英語科目" } },
+            { label: "工学基礎科目", requiredCredits: 18, filter: { category: "工学基礎科目" as const } },
+            { label: "専門科目", requiredCredits: 78, filter: { subcategory1: "専門科目" } },
+          ],
+          filter: {},
+        },
+        { label: "合計", requiredCredits: 124, filter: {} },
+      ],
+    },
+  ],
+  creditLimits: [{ label: "通常", maxCredits: 24 }],
+};

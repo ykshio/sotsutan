@@ -1,0 +1,151 @@
+import type { DepartmentDefinition } from "@/types";
+
+/**
+ * システムデザイン工学部 デザイン工学科（2026年度入学）
+ * 自動生成: scripts/csv-to-ts.py
+ */
+export const ad26: DepartmentDefinition = {
+  id: "ad-26",
+  departmentCode: "AD",
+  entranceYear: 2026,
+  name: "デザイン工学科",
+  faculty: "システムデザイン工学部",
+  subjects: [
+    { id: "AD26-001", name: "微分積分学Ⅰ", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学科目", subcategory2: "数学", year: "1", semester: "前期", notes: "後期に再履修クラスを開講初歩クラスは週2コマ" },
+    { id: "AD26-002", name: "線形代数学Ⅰ", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学科目", subcategory2: "数学", year: "1", semester: "前期", notes: "後期に再履修クラスを開講オープン科目" },
+    { id: "AD26-003", name: "数学演習A", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学科目", subcategory2: "数学", year: "1", semester: "前期", notes: "後期に再履修クラスを開講" },
+    { id: "AD26-004", name: "数理・データサイエンス入門", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学科目", subcategory2: "情報", year: "1", semester: "前期", teachingCode: "基礎要件" },
+    { id: "AD26-005", name: "コンピュータプログラミングⅠ", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学科目", subcategory2: "情報", year: "1", semester: "後期", teachingCode: "基礎要件" },
+    { id: "AD26-006", name: "物理学実験", credits: 1, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学科目", subcategory2: "自然科学技術", year: "1", semester: "前期／後期", notes: "週2コマ開講、「化学実験」との隔週開講初回の履修は、後期開講のクラスを履修すること" },
+    { id: "AD26-007", name: "化学実験", credits: 1, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学科目", subcategory2: "自然科学技術", year: "1", semester: "前期／後期", notes: "週2コマ開講、「物理学実験」との隔週開講初回の履修は、後期開講のクラスを履修すること" },
+    { id: "AD26-008", name: "基礎物理学", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学科目", subcategory2: "自然科学技術", year: "1", semester: "前期", notes: "後期に再履修クラスを開講" },
+    { id: "AD26-009", name: "物理学A", credits: 2, category: "工学基礎科目", classification: "択一必修", subcategory1: "自然科学科目", subcategory2: "自然科学技術", year: "1", semester: "後期", notes: "択一必修（左記の科目から2単位を修得すること）科学技術概論A～Eはオープン科目" },
+    { id: "AD26-010", name: "物理学B", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学科目", subcategory2: "自然科学技術", year: "1", semester: "後期" },
+    { id: "AD26-011", name: "物理学C", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学科目", subcategory2: "自然科学技術", year: "1", semester: "後期" },
+    { id: "AD26-012", name: "科学技術概論A", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学科目", subcategory2: "自然科学技術", year: "1", semester: "前期／後期" },
+    { id: "AD26-013", name: "科学技術概論B", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学科目", subcategory2: "自然科学技術", year: "1", semester: "前期／後期" },
+    { id: "AD26-014", name: "科学技術概論C", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学科目", subcategory2: "自然科学技術", year: "1", semester: "前期／後期" },
+    { id: "AD26-015", name: "科学技術概論D", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学科目", subcategory2: "自然科学技術", year: "1", semester: "前期／後期" },
+    { id: "AD26-016", name: "科学技術概論E", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "自然科学科目", subcategory2: "自然科学技術", year: "1", semester: "前期／後期" },
+
+    { id: "AD26-017", name: "ハンズオンワークショップ", credits: 2, category: "工学基礎科目", classification: "必修", subcategory1: "ハンズオンワークショップ", subcategory2: "自然科学技術", year: "1", semester: "後期" },
+
+    { id: "AD26-018", name: "デザイン工学基礎実習", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "プ実ロ習ジ・ェ演ク習ト・", subcategory2: "自然科学技術", year: "1", semester: "前期" },
+    { id: "AD26-019", name: "デザイン工学PBL－A", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "プ実ロ習ジ・ェ演ク習ト・", subcategory2: "自然科学技術", year: "2", semester: "前期" },
+    { id: "AD26-020", name: "デザイン工学PBL－B", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "プ実ロ習ジ・ェ演ク習ト・", subcategory2: "自然科学技術", year: "2", semester: "後期" },
+    { id: "AD26-021", name: "デザイン工学プロジェクトA", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "プ実ロ習ジ・ェ演ク習ト・", subcategory2: "自然科学技術", year: "3", semester: "前期" },
+    { id: "AD26-022", name: "デザイン工学プロジェクトB", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "プ実ロ習ジ・ェ演ク習ト・", subcategory2: "自然科学技術", year: "3", semester: "後期" },
+    { id: "AD26-023", name: "卒業研究A", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "プ実ロ習ジ・ェ演ク習ト・", subcategory2: "自然科学技術", year: "4", semester: "通年" },
+    { id: "AD26-024", name: "卒業研究B", credits: 4, category: "専門教育科目", classification: "必修", subcategory1: "プ実ロ習ジ・ェ演ク習ト・", subcategory2: "自然科学技術", year: "4", semester: "通年" },
+
+    { id: "AD26-025", name: "システムデザイン工学FBL－A", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "共学通部", subcategory2: "自然科学技術", year: "34", semester: "前期" },
+    { id: "AD26-026", name: "システムデザイン工学FBL－B", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "共学通部", subcategory2: "自然科学技術", year: "34", semester: "後期" },
+
+    { id: "AD26-027", name: "デザイン工学概論Ⅰ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "学科基礎", subcategory2: "自然科学技術", year: "1", semester: "前期" },
+    { id: "AD26-028", name: "デザイン工学概論Ⅱ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "学科基礎", subcategory2: "自然科学技術", year: "1", semester: "後期" },
+    { id: "AD26-029", name: "技術日本語表現法", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "学科基礎", subcategory2: "自然科学技術", year: "1", semester: "後期" },
+    { id: "AD26-030", name: "回路理論および演習", credits: 3, category: "専門教育科目", classification: "必修", subcategory1: "学科基礎", subcategory2: "自然科学技術", year: "2", semester: "前期", teachingCode: "160工業・1710機電" },
+    { id: "AD26-031", name: "材料力学", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "学科基礎", subcategory2: "自然科学技術", year: "2", semester: "前期", teachingCode: "160工業" },
+    { id: "AD26-032", name: "コンピュータプログラミングⅡ", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "学科基礎", subcategory2: "自然科学技術", year: "2", semester: "前期", teachingCode: "1310情②" },
+    { id: "AD26-033", name: "情報数学", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "学科基礎", subcategory2: "自然科学技術", year: "2", semester: "前期" },
+    { id: "AD26-034", name: "ディジタル信号処理", credits: 3, category: "専門教育科目", classification: "必修", subcategory1: "学科基礎", subcategory2: "自然科学技術", year: "2", semester: "後期", teachingCode: "1320情③" },
+
+    { id: "AD26-035", name: "微分積分学Ⅱおよび演習", credits: 4, category: "専門教育科目", classification: "選択", subcategory1: "専門数学", subcategory2: "自然科学技術", year: "1", semester: "後期" },
+    { id: "AD26-036", name: "微分方程式Ⅰ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門数学", subcategory2: "自然科学技術", year: "1", semester: "後期" },
+    { id: "AD26-037", name: "線形代数学Ⅱ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門数学", subcategory2: "自然科学技術", year: "1", semester: "後期" },
+    { id: "AD26-038", name: "線形代数学Ⅲ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門数学", subcategory2: "自然科学技術", year: "2", semester: "前期" },
+    { id: "AD26-039", name: "確率・統計", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "専門数学", subcategory2: "自然科学技術", year: "1", semester: "後期" },
+
+    { id: "AD26-040", name: "人間中心設計", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "デザイン手法", subcategory2: "自然科学技術", year: "2", semester: "前期" },
+    { id: "AD26-041", name: "色彩・構成論", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "デザイン手法", subcategory2: "自然科学技術", year: "2", semester: "前期" },
+    { id: "AD26-042", name: "環境心理学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "デザイン手法", subcategory2: "自然科学技術", year: "2", semester: "前期／後期" },
+    { id: "AD26-043", name: "感性計測", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "デザイン手法", subcategory2: "自然科学技術", year: "2", semester: "後期", teachingCode: "160工業" },
+    { id: "AD26-044", name: "インタラクションデザイン", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "デザイン手法", subcategory2: "自然科学技術", year: "3", semester: "後期" },
+
+    { id: "AD26-045", name: "デザインのための認知科学", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "社会人科間学・", subcategory2: "自然科学技術", year: "2", semester: "前期" },
+    { id: "AD26-046", name: "デザインのための社会科学", credits: 2, category: "専門教育科目", classification: "必修", subcategory1: "社会人科間学・", subcategory2: "自然科学技術", year: "2", semester: "後期" },
+    { id: "AD26-047", name: "社会・認知心理学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "社会人科間学・", subcategory2: "自然科学技術", year: "3", semester: "前期" },
+
+    { id: "AD26-048", name: "視覚デザイン基礎", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "デザイン実践", subcategory2: "自然科学技術", year: "2", semester: "後期" },
+    { id: "AD26-049", name: "UX概論", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "デザイン実践", subcategory2: "自然科学技術", year: "2", semester: "後期" },
+    { id: "AD26-050", name: "環境デザイン概論", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "デザイン実践", subcategory2: "自然科学技術", year: "3", semester: "前期" },
+    { id: "AD26-051", name: "コンピュータグラフィックス", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "デザイン実践", subcategory2: "自然科学技術", year: "3", semester: "前期", teachingCode: "1340情⑤" },
+    { id: "AD26-052", name: "インストラクショナルデザイン", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "デザイン実践", subcategory2: "自然科学技術", year: "34", semester: "前期" },
+    { id: "AD26-053", name: "プロダクト・デザイン", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "デザイン実践", subcategory2: "自然科学技術", year: "3", semester: "前期" },
+    { id: "AD26-054", name: "環境工学・構法概論", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "デザイン実践", subcategory2: "自然科学技術", year: "3", semester: "後期", teachingCode: "160工業" },
+    { id: "AD26-055", name: "UXデザイン", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "デザイン実践", subcategory2: "自然科学技術", year: "3", semester: "後期" },
+    { id: "AD26-056", name: "VR環境デザイン", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "デザイン実践", subcategory2: "自然科学技術", year: "3", semester: "後期", teachingCode: "1340情⑤" },
+
+    { id: "AD26-057", name: "電磁気学および演習", credits: 3, category: "専門教育科目", classification: "選択", subcategory1: "工学専門", subcategory2: "電気電子系", year: "2", semester: "後期", teachingCode: "160工業・1710機電" },
+    { id: "AD26-058", name: "電子回路", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "工学専門", subcategory2: "電気電子系", year: "3", semester: "前期", teachingCode: "160工業・1710機電" },
+    { id: "AD26-059", name: "信号処理応用", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "工学専門", subcategory2: "電気電子系", year: "3", semester: "前期", teachingCode: "1340情⑤" },
+    { id: "AD26-060", name: "音響工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "工学専門", subcategory2: "電気電子系", year: "34", semester: "前期／後期", teachingCode: "160工業" },
+    { id: "AD26-061", name: "応用音響工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "工学専門", subcategory2: "電気電子系", year: "3", semester: "後期" },
+    { id: "AD26-062", name: "計測工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "工学専門", subcategory2: "電気電子系", year: "34", semester: "後期", teachingCode: "160工業・1710機電" },
+    { id: "AD26-063", name: "材料と加工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "工学専門", subcategory2: "機械系", year: "2", semester: "後期", teachingCode: "160工業・1700材料" },
+    { id: "AD26-064", name: "機械力学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "工学専門", subcategory2: "機械系", year: "2", semester: "後期", teachingCode: "160工業" },
+    { id: "AD26-065", name: "機構・機械要素設計", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "工学専門", subcategory2: "機械系", year: "3", semester: "前期／後期", teachingCode: "160工業・1710機電" },
+    { id: "AD26-066", name: "生体工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "工学専門", subcategory2: "機械系", year: "34", semester: "後期", teachingCode: "160工業" },
+    { id: "AD26-067", name: "モデルベースデザイン", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "工学専門", subcategory2: "機械系", year: "3", semester: "後期", teachingCode: "160工業・1710機電" },
+    { id: "AD26-068", name: "コンピュータアーキテクチャ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "工学専門", subcategory2: "情報系", year: "2", semester: "前期", teachingCode: "1310情②・1730情報" },
+    { id: "AD26-069", name: "情報通信とネットワーク", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "工学専門", subcategory2: "情報系", year: "2", semester: "後期", teachingCode: "1330情④" },
+    { id: "AD26-070", name: "プログラム工学", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "工学専門", subcategory2: "情報系", year: "2", semester: "後期", teachingCode: "1310情②・1730情報" },
+    { id: "AD26-071", name: "マルチメディア構成と演習", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "工学専門", subcategory2: "情報系", year: "3", semester: "前期", teachingCode: "1340情⑤" },
+    { id: "AD26-072", name: "データ構造とアルゴリズム", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "工学専門", subcategory2: "情報系", year: "3", semester: "後期", teachingCode: "1310情②・1730情報" },
+    { id: "AD26-073", name: "データベースと情報検索", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "工学専門", subcategory2: "情報系", year: "34", semester: "前期", teachingCode: "1320情③" },
+    { id: "AD26-074", name: "IoT組み込みプログラミング", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "工学専門", subcategory2: "情報系", year: "34", semester: "前期", teachingCode: "1310情②・1730情報" },
+
+    { id: "AD26-075", name: "インターンシップ", credits: 2, category: "専門教育科目", classification: "選択", subcategory1: "キ教ャ育リア", subcategory2: "情報系", year: "34", semester: "通年" },
+    { id: "AD26-076", name: "デザイン工学総合ゼミⅠ", credits: 1, category: "専門教育科目", classification: "必修", subcategory1: "キ教ャ育リア", subcategory2: "情報系", year: "3", semester: "前期", notes: "アセスメント科目" },
+    { id: "AD26-077", name: "デザイン工学総合ゼミⅡ", credits: 1, category: "専門教育科目", classification: "必修", subcategory1: "キ教ャ育リア", subcategory2: "情報系", year: "3", semester: "後期", notes: "アセスメント科目" },
+
+    { id: "AD26-078", name: "職業指導", credits: 2, category: "共通教育科目", classification: "自由", subcategory1: "キ教ャ育リア", subcategory2: "情報系", year: "3", semester: "前期", teachingCode: "161職指" },
+    { id: "AD26-079", name: "栽培", credits: 1, category: "共通教育科目", classification: "自由", subcategory1: "キ教ャ育リア", subcategory2: "情報系", year: "2", semester: "前期", teachingCode: "1720生物", notes: "前期集中" },
+    { id: "AD26-080", name: "工業技術概論", credits: 2, category: "共通教育科目", classification: "自由", subcategory1: "キ教ャ育リア", subcategory2: "情報系", year: "3", semester: "後期", teachingCode: "160工業" },
+  ],
+  promotionRequirements: [
+    {
+      label: "2年進級",
+      targetYear: 2,
+      items: [
+        { label: "合計", requiredCredits: 24, filter: {} },
+      ],
+    },
+    {
+      label: "4年進級",
+      targetYear: 4,
+      items: [
+        { label: "人間科学科目", requiredCredits: 10, filter: { subcategory1: "人間科学科目" } },
+        { label: "英語科目", requiredCredits: 6, filter: { subcategory1: "英語科目" } },
+        { label: "必修科目", requiredCredits: 17, countMode: "subjects" as const, filter: { classification: "必修" } },
+        { label: "合計", requiredCredits: 104, filter: {} },
+      ],
+    },
+    {
+      label: "卒業",
+      targetYear: 4,
+      items: [
+        { label: "人間科学科目", requiredCredits: 16, filter: { subcategory1: "人間科学科目" } },
+        { label: "技術者教養科目", requiredCredits: 2, filter: { subcategory2: "技術者教養" } },
+        { label: "グローバル教養科目", requiredCredits: 2, filter: { subcategory2: "グローバル教養" } },
+        { label: "英語科目", requiredCredits: 8, filter: { subcategory1: "英語科目" } },
+        { label: "工学基礎科目", requiredCredits: 18, filter: { category: "工学基礎科目" } },
+        { label: "専門科目", requiredCredits: 78, filter: { subcategory1: "専門科目" } },
+        {
+          label: "任意に選択し修得した科目",
+          requiredCredits: 4,
+          countMode: "overflow" as const,
+          overflowSources: [
+            { label: "人間科学科目", requiredCredits: 16, filter: { subcategory1: "人間科学科目" } },
+            { label: "英語科目", requiredCredits: 8, filter: { subcategory1: "英語科目" } },
+            { label: "工学基礎科目", requiredCredits: 18, filter: { category: "工学基礎科目" as const } },
+            { label: "専門科目", requiredCredits: 78, filter: { subcategory1: "専門科目" } },
+          ],
+          filter: {},
+        },
+        { label: "合計", requiredCredits: 124, filter: {} },
+      ],
+    },
+  ],
+  creditLimits: [{ label: "通常", maxCredits: 24 }],
+};
